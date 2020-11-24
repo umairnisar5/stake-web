@@ -1,0 +1,16 @@
+@media screen and (max-width: 480px) {
+    .ro {
+        margin-top: 15px;
+        min-width: 80% !important;
+        max-width: 90% !important;
+        border-radius: 10px;
+      }
+  }
+
+
+  .ro {
+    min-width: 590px ;
+    max-width: 600px ;
+    border-radius: 10px;
+    
+  }
