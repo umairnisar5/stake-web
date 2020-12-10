@@ -67,7 +67,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard() {
+export default function SimpleCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -104,7 +104,11 @@ export default function SimpleCard() {
           }}
         >
           <Grid item xs={12}>
-            <Button variant="contained" className={classes.button}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={props?.withdrawZinTokens}
+            >
               Withdrawa!
             </Button>
           </Grid>

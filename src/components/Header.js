@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import Logo from "../asset/logo.svg";
 import MetaMask from "../asset/meta-mask.png";
@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = (props) => {
   const classes = useStyles();
-
+  const [account, setAccount] = useState(null);
   useEffect(() => {
     // loadWeb3();
     // loadBlockchainData();
@@ -54,7 +54,7 @@ const Header = () => {
 
     const accounts = await web3.eth.getAccounts();
     console.log("account", accounts);
-
+    setAccount(account && accounts[0]);
     const networkId = await web3.eth.net.getId();
     console.log("networkId", networkId);
   };
@@ -68,6 +68,7 @@ const Header = () => {
 
       const accounts = await web3.eth.getAccounts();
       console.log("account", accounts);
+      setAccount(accounts[0]);
 
       const networkId = await web3.eth.net.getId();
       console.log("networkId", networkId);
@@ -80,6 +81,7 @@ const Header = () => {
       const web3 = window.web3;
 
       const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
       console.log("account", accounts);
       web3.eth.getBalance(accounts[0], (err, balance) => {
         console.log("balance:", balance);
@@ -122,17 +124,6 @@ const Header = () => {
       <Grid container className={classes.headerBorderWeb}>
         <Grid item style={{ display: "flex", alignItems: "center" }}>
           <img src={Logo} style={{ height: "100px", width: "200px" }}></img>
-          {/* <span
-            style={{
-              paddingLeft: "5px",
-              fontSize: "30px",
-              fontWeight: "bold",
-              height: "100%",
-              color: "#fff",
-            }}
-          >
-            zYF
-          </span> */}
         </Grid>
         <Grid item>
           <h2 style={{ color: "#fff" }}>Liquidity Staking</h2>
@@ -140,12 +131,12 @@ const Header = () => {
 
         <Grid item>
           <Button
-            onClick={() => connectWithMetaMask()}
+            onClick={() => props?.loadWeb3()}
             variant="contained"
             className={classes.button}
             startIcon={<img src={MetaMask} />}
           >
-            Connect Wallet
+            {props?.account === null ? "Connect Wallet" : "Connected"}
           </Button>
         </Grid>
       </Grid>

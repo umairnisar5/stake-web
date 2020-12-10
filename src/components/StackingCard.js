@@ -66,7 +66,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard() {
+export default function SimpleCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -98,12 +98,20 @@ export default function SimpleCard() {
         </Grid>
         <Grid container>
           <Grid item xs={6}>
-            <Button variant="contained" className={classes.button}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={props.stake}
+            >
               Stake
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button variant="contained" className={classes.button}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={props?.unStake}
+            >
               UnStake
             </Button>
           </Grid>
