@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Grid, Button } from "@material-ui/core";
-import Logo from "../asset/logo.png";
 import MetaMask from "../asset/meta-mask.png";
 import { makeStyles } from "@material-ui/core/styles";
 import Web3 from "web3";
@@ -48,7 +47,7 @@ const Header = () => {
     // loadWeb3();
     // loadBlockchainData();
   }, []);
-
+  // eslint-disable-next-line
   const loadBlockchainData = async () => {
     const web3 = window.web3;
 
@@ -58,7 +57,7 @@ const Header = () => {
     const networkId = await web3.eth.net.getId();
     console.log("networkId", networkId);
   };
-
+  // eslint-disable-next-line
   const loadWeb3 = async () => {};
   const connectWithMetaMask = async () => {
     if (window.ethereum) {
@@ -134,7 +133,7 @@ const Header = () => {
             onClick={() => connectWithMetaMask()}
             variant="contained"
             className={classes.button}
-            startIcon={<img src={MetaMask} />}
+            startIcon={<img alt="metamask" src={MetaMask} />}
           >
             Uniswap
           </Button>

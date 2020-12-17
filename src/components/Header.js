@@ -48,7 +48,7 @@ const Header = (props) => {
     // loadWeb3();
     // loadBlockchainData();
   }, []);
-
+  // eslint-disable-next-line
   const loadBlockchainData = async () => {
     const web3 = window.web3;
 
@@ -58,8 +58,9 @@ const Header = (props) => {
     const networkId = await web3.eth.net.getId();
     console.log("networkId", networkId);
   };
-
+  // eslint-disable-next-line
   const loadWeb3 = async () => {};
+  // eslint-disable-next-line
   const connectWithMetaMask = async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
@@ -123,7 +124,11 @@ const Header = (props) => {
     <div>
       <Grid container className={classes.headerBorderWeb}>
         <Grid item style={{ display: "flex", alignItems: "center" }}>
-          <img src={Logo} style={{ height: "100px", width: "200px" }}></img>
+          <img
+            alt="logo"
+            src={Logo}
+            style={{ height: "100px", width: "200px" }}
+          ></img>
         </Grid>
         <Grid item>
           <h2 style={{ color: "#fff" }}>Liquidity Staking</h2>
@@ -134,7 +139,7 @@ const Header = (props) => {
             onClick={() => props?.loadWeb3()}
             variant="contained"
             className={classes.button}
-            startIcon={<img src={MetaMask} />}
+            startIcon={<img src={MetaMask} alt="metmask" />}
           >
             {props?.account === null ? "Connect Wallet" : "Connected"}
           </Button>

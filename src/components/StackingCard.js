@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -68,7 +67,6 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
@@ -76,7 +74,11 @@ export default function SimpleCard(props) {
         <Grid container style={{ margin: "10px 0px 5px 0px" }}>
           <Grid item xs={2}>
             <Typography className={classes.pos} gutterBottom>
-              <img src={Logo} style={{ width: "100px", height: "60px" }}></img>
+              <img
+                alt="not found"
+                src={Logo}
+                style={{ width: "100px", height: "60px" }}
+              ></img>
             </Typography>
           </Grid>
 
@@ -85,14 +87,17 @@ export default function SimpleCard(props) {
         <Grid container>
           <Grid item xs={12} style={{ margin: "0px 0px" }}>
             <Typography className={classes.pos} style={{ color: textColor }}>
-              985432.03
+              {props?.accountDetails?.stakes
+                ? parseInt(props?.accountDetails?.stakes)
+                : 0}
+              {/* user stake which was 0 */}
             </Typography>
           </Grid>
         </Grid>
         <Grid container style={{ margin: "0px 0px 10px 0px" }}>
           <Grid item xs={12}>
             <Typography className={classes.title}>
-              Staked zYF/ETH LP tokens
+              Staked ETH LP tokens
             </Typography>
           </Grid>
         </Grid>

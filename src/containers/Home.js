@@ -3,464 +3,90 @@ import Web3 from "web3";
 
 import Header from "../components/Header";
 import Card from "../components/Card";
-import Buttons from "../components/Buttons";
 import StackingCard from "../components/StackingCard";
 import DepositeCard from "../components/DepositeCard";
 import { Grid } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
+import Dialog from "../components/Dialog";
+import { tokenabi, abi } from "./data";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+function AlertComponent(props) {
+  return <Alert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
+
 const Home = () => {
+  const [enteredAmount, setEnteredAmount] = useState(0);
+  const [rewards, setRewards] = useState(0);
+  const [mainAccountDetails, setMainAccountDetails] = useState(null);
+  const [message, setMessage] = useState({
+    show: false,
+    severity: "",
+    message: "",
+    title: "",
+  });
+  const [showTimer, setShowTimer] = useState(false);
+  const [dropMessage, setDropMessage] = useState("");
+  const classes = useStyles();
+  const [openBackdrop, setOpenBackdrop] = React.useState(false);
+  const handleCloseBackdrop = () => {
+    setOpenBackdrop(false);
+  };
+  const handleToggleBackdrop = () => {
+    setOpenBackdrop(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setMessage({
+      show: false,
+      severity: "",
+      message: "",
+      title: "",
+    });
+    //hide here
+  };
   const [state, setState] = useState({
     mainAccount: null,
     totalZinTokens: null,
     rewards: null,
     stakeOf: null,
   });
-
+  const [openStakeDialog, setOpenStakeDialog] = useState(false);
+  const handleCloseStake = () => {
+    setOpenStakeDialog(false);
+  };
+  const handleOpenStake = () => {
+    setOpenStakeDialog(true);
+  };
   const [account, setAccount] = useState(null);
   // contractAddress = "0xd224Cd7CBA3A4Ad3A0fF5386711Dc08556b236E4";
+  // eslint-disable-next-line
   const [contractAddress, setContractAddress] = useState(
-    "0x1A6Ad65CE77888DD1Fe7720543378c42318a7AF3"
+    "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
   );
+  // eslint-disable-next-line
   const [tokenAddress, setTokenAddress] = useState(
-    "0x12B3D6AFF67FCbeb7F4f7121aA1eaa2dBC4FE638"
+    "0x56B6dB07880276F8D7E259d070b0429De5483D55"
   );
-
-  const abi = [
-    {
-      inputs: [
-        {
-          internalType: "contract ZinFinance",
-          name: "_token",
-          type: "address",
-        },
-        { internalType: "address", name: "_burnWallet", type: "address" },
-      ],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "_stakeholder", type: "address" },
-      ],
-      name: "calculateDividend",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "contractAddress",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "", type: "address" }],
-      name: "deposit_time",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "destroy",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "_address", type: "address" }],
-      name: "isStakeholder",
-      outputs: [
-        { internalType: "bool", name: "", type: "bool" },
-        { internalType: "uint256", name: "", type: "uint256" },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "percentage",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "reinvest",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "", type: "address" }],
-      name: "reinvested",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "_stakeholder", type: "address" },
-      ],
-      name: "rewardOfEachUser",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "", type: "address" }],
-      name: "rewardsGiven",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "uint256", name: "_percentage", type: "uint256" },
-      ],
-      name: "setBurnPercentage",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "_stakeholder", type: "address" },
-      ],
-      name: "stakeOf",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "_stake", type: "uint256" }],
-      name: "stakeZin",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      name: "stakeholders",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "", type: "address" }],
-      name: "stakes",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "token",
-      outputs: [
-        { internalType: "contract ZinFinance", name: "", type: "address" },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "totalStakes",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
-      name: "unStakeZin",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "withdrawReward",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-  const tokenabi = [
-    {
-      inputs: [],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "Approval",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "value",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-      ],
-      name: "allowance",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-      ],
-      name: "approve",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "account",
-          type: "address",
-        },
-      ],
-      name: "balanceOf",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "decimals",
-      outputs: [
-        {
-          internalType: "uint8",
-          name: "",
-          type: "uint8",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "subtractedValue",
-          type: "uint256",
-        },
-      ],
-      name: "decreaseAllowance",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "spender",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "addedValue",
-          type: "uint256",
-        },
-      ],
-      name: "increaseAllowance",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "name",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "symbol",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "totalSupply",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "recipient",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-      ],
-      name: "transfer",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "sender",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "recipient",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-      ],
-      name: "transferFrom",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
 
   const loadWeb3 = async () => {
     let isConnected = false;
@@ -485,33 +111,28 @@ const Home = () => {
         let contract = new web3.eth.Contract(abi, contractAddress);
         let accounts = await getAccounts();
         setAccount(accounts[0]);
-        let tokens = await getZinTokens(accounts[0]);
-        let stakeOf = await getStakeOf(contract, accounts[0]);
-        let totalStakes = await getTotalStake(contract);
-        let percentOfTotalStake =
-          (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-            parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-          100;
-        console.log(
-          "Total STakes: ",
-          parseInt(web3.utils.fromWei(totalStakes, "ether"))
-        );
-        console.log(
-          "Stake Of: ",
-          parseInt(web3.utils.fromWei(stakeOf, "ether"))
-        );
+        // let tokens = await getZinTokens(accounts[0]);
+
         setState({
           mainAccount: accounts[0],
-          totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
-          stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-          totalStakes: parseInt(web3.utils.fromWei(totalStakes, "ether")),
-          percentOfTotalStake: parseInt(percentOfTotalStake),
+          // totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
         });
+        let accountDetails = null;
+
+        accountDetails = await contract.methods.userData(accounts[0]).call();
+        setMainAccountDetails(accountDetails);
+        return parseInt(accountDetails.stakes);
         await getRewardOnInterval(contract, accounts[0]);
       }
     } catch (error) {
       console.log(error);
-      console.log("Error while connecting metamask");
+      let obj = {
+        show: true,
+        severity: "error",
+        message: "Error while connecting metamask",
+        title: "Connecting Metamask",
+      };
+      setMessage(obj);
     }
   };
 
@@ -526,7 +147,7 @@ const Home = () => {
       return null;
     }
   };
-
+  // eslint-disable-next-line
   const isLockedAccount = async () => {
     try {
       let accounts = await getAccounts();
@@ -539,7 +160,7 @@ const Home = () => {
       alert("Error while checking locked account");
     }
   };
-
+  // eslint-disable-next-line
   const getBalanceOfAccount = async () => {
     const mainAccount = await getAccounts();
     const web3 = window.web3;
@@ -549,11 +170,11 @@ const Home = () => {
   };
 
   const getZinTokens = async (address) => {
-    console.log("Account: ", address);
-    const web3 = window.web3;
-    let tokenContract = new web3.eth.Contract(tokenabi, tokenAddress);
-    let tokens = await tokenContract.methods.balanceOf(address).call();
-    return tokens;
+    //   console.log("Account: ", address);
+    //   const web3 = window.web3;
+    //   let tokenContract = new web3.eth.Contract(tokenabi, tokenAddress);
+    //   // let tokens = await tokenContract.methods.balanceOf(address).call();
+    //   return tokens;
   };
 
   const getStakeOf = async (contract, address) => {
@@ -564,200 +185,241 @@ const Home = () => {
       return null;
     }
   };
+  const getUserData = async () => {
+    const web3 = window.web3;
+    console.log(abi, contractAddress);
+    let contract = new web3.eth.Contract(abi, contractAddress);
+    let accountDetails = null;
 
+    accountDetails = await contract.methods.userData(account).call();
+    let amount = accountDetails.stakes;
+    console.log(parseInt(accountDetails.stakes));
+    console.log(amount);
+
+    return parseInt(accountDetails.stakes);
+  };
+
+  // useEffect(() => {
+  //   if (account !== null) {
+  //     getUserData();
+  //   }
+  // }, [account]);
   const stakeZin = async (amount) => {
-    if (state.mainAccount === null) {
-      //  showAlert("Whoops...", "Metamask is not connected.");
-      console.log("Whoops...", "Metamask is not connected.");
+    if (amount < 1) {
+      let obj = {
+        show: true,
+        severity: "error",
+        message: "A minimum of 1 eth is required to participate!",
+        title: "Stake",
+      };
+      setMessage(obj);
+      //
     } else {
-      const web3 = window.web3;
-      let totalTokens = await getZinTokens(state.mainAccount);
-      // let _amount = amount.toString();
-      let _amount = "80";
-      totalTokens = parseInt(
-        web3.utils.fromWei(totalTokens.toString(), "ether")
-      );
+      if (account === null) {
+        //  showAlert("Whoops...", "Metamask is not connected.");
+        let obj2 = {
+          show: true,
+          severity: "error",
+          message: "Whoops..., Metamask is not connected.",
+          title: "Stake",
+        };
+        setMessage(obj2);
+      } else {
+        let stakeAmount = await getUserData();
+        handleCloseStake();
+        if (stakeAmount !== 0) {
+          let obj = {
+            show: true,
+            severity: "info",
+            message: "You have already stake",
+            title: "Stake",
+          };
+          setMessage(obj);
+        } else {
+          const web3 = window.web3;
 
-      if (totalTokens >= parseInt(_amount)) {
+          let _amount = amount.toString();
+          let contract = new web3.eth.Contract(abi, contractAddress);
+          console.log("web=======", web3.utils.toWei(_amount, "ether"));
+          try {
+            contract.methods
+              .stakeEth()
+              .send({
+                from: account,
+                value: web3.utils.toWei(_amount, "ether"),
+              })
+              .on("transactionHash", async (hash) => {
+                let obj = {
+                  show: true,
+                  severity: "info",
+                  message: "Your transaction is pending",
+                  title: "Stake",
+                };
+                setMessage(obj);
+                handleToggleBackdrop();
+                setDropMessage("Your transaction is pending");
+              })
+              .on("receipt", async (receipt) => {
+                let obj = {
+                  show: true,
+                  severity: "info",
+                  message: "Your transaction is confirmed",
+                  title: "Stake",
+                };
+                setMessage(obj);
+              })
+              .on("error", async (error) => {
+                console.log("error", error);
+                let obj = {
+                  show: true,
+                  severity: "error",
+                  message: "User denied transaction",
+                  title: "",
+                };
+                setMessage(obj);
+                handleCloseBackdrop();
+                setDropMessage("Your transaction is pending");
+              });
+          } catch (e) {
+            console.log("error rejection", e);
+            let obj = {
+              show: true,
+              severity: "error",
+              message: "User has declined transaction",
+              title: "Stake",
+            };
+            setMessage(obj);
+          }
+        }
+      }
+    }
+  };
+
+  const unStakeZin = async () => {
+    // let _amount = amount.toString();
+    // you have nothing staked
+    if (account === null) {
+      let obj2 = {
+        show: true,
+        severity: "error",
+        message: "Whoops..., Metamask is not connected.",
+        title: "Stake",
+      };
+      setMessage(obj2);
+    } else {
+      let stakeAmount = await getUserData();
+      if (stakeAmount > 0) {
+        const web3 = window.web3;
+
         let contract = new web3.eth.Contract(abi, contractAddress);
-        let tokenContract = new web3.eth.Contract(tokenabi, tokenAddress);
-        if (JSON.parse(localStorage.getItem("isApproved")) === true) {
-          console.log("Not Approving");
-          contract.methods
-            .stakeZin(web3.utils.toWei(_amount, "ether"))
-            .send({ from: state.mainAccount })
-            .on("receipt", async (receipt) => {
-              console.log("Stake Receipt: ", receipt);
-              let tokens = await getZinTokens(state.mainAccount);
-              let stakeOf = await getStakeOf(contract, state.mainAccount);
-              let totalStakes = await getTotalStake(contract);
-              let percentOfTotalStake =
-                (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-                  parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-                100;
-              //  setState({
-              //   totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
-              //   stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-              //   percentOfTotalStake: percentOfTotalStake,
-              // });
+        contract.methods
+          .unstake()
+          .send({ from: account })
+          .on("transactionHash", async (hash) => {
+            let obj = {
+              show: true,
+              severity: "info",
+              message: "Your transaction is pending",
+              title: "Stake",
+            };
+            setMessage(obj);
+            handleToggleBackdrop();
+            setDropMessage("Your transaction is pending");
+          })
+          .on("receipt", async (receipt) => {
+            console.log("Unstake Reciept: ", receipt);
+          })
+          .on("error", async (error) => {
+            console.log("error", error);
+            let obj = {
+              show: true,
+              severity: "error",
+              message: "User denied transaction",
+              title: "",
+            };
+            setMessage(obj);
+            handleCloseBackdrop();
+            setDropMessage("Your transaction is pending");
+          });
+      } else {
+        let obj = {
+          show: true,
+          severity: "info",
+          message: "You have no stake",
+        };
+        setMessage(obj);
+      }
+    }
+  };
+
+  const withdraw = async () => {
+    //you don't have any reward
+
+    if (account === null) {
+      let obj2 = {
+        show: true,
+        severity: "error",
+        message: "Whoops..., Metamask is not connected.",
+        title: "Stake",
+      };
+      setMessage(obj2);
+    } else {
+      if (rewards > 0) {
+        setShowTimer(true);
+        try {
+          const web3 = window.web3;
+          let contract = new web3.eth.Contract(abi, contractAddress);
+          // eslint-disable-next-line
+          console.log("call widthdraw");
+          let rewards = await contract.methods
+            .withdrawReward()
+            .send({
+              from: account,
             })
             .on("transactionHash", async (hash) => {
-              console.log("transactionHash: ", hash);
-            });
-          localStorage.setItem("isApproved", "true");
-        } else {
-          console.log("Main Account: ", state.mainAccount);
-          console.log("Approving");
-          let approveAmount = 10000000;
-          tokenContract.methods
-            .approve(
-              contractAddress,
-              web3.utils.toWei(approveAmount.toString(), "ether")
-            )
-            .send({ from: state.mainAccount })
-            .on("transactionHash", (trxHash) => {
-              console.log("Trx Hash: ", trxHash);
+              let obj = {
+                show: true,
+                severity: "info",
+                message: "Your transaction is pending",
+                title: "Stake",
+              };
+              setMessage(obj);
+              handleToggleBackdrop();
+              setDropMessage("Your transaction is pending");
             })
             .on("receipt", async (receipt) => {
-              console.log("Receipt: ", receipt);
-              contract.methods
-                .stakeZin(web3.utils.toWei(_amount, "ether"))
-                .send({ from: state.mainAccount })
-                .on("receipt", async (receipt) => {
-                  let tokens = await getZinTokens(state.mainAccount);
-                  let stakeOf = await getStakeOf(contract, state.mainAccount);
-                  let totalStakes = await getTotalStake(contract);
-                  let percentOfTotalStake =
-                    (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-                      parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-                    100;
-                  setState({
-                    totalZinTokens: parseInt(
-                      web3.utils.fromWei(tokens, "ether")
-                    ),
-                    stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-                    percentOfTotalStake: percentOfTotalStake,
-                  });
-                })
-                .on("transactionHash", async (hash) => {
-                  console.log("transactionHash: ", hash);
-                });
-              localStorage.setItem("isApproved", "true");
+              console.log("recept", receipt);
+            })
+            .on("error", async (error) => {
+              console.log("error", error);
+              let obj = {
+                show: true,
+                severity: "error",
+                message: "User denied transaction",
+                title: "",
+              };
+              setMessage(obj);
+              handleCloseBackdrop();
+              setDropMessage("");
             });
+        } catch (error) {
+          let obj2 = {
+            show: true,
+            severity: "error",
+            message: "Error in Withdraw",
+            title: "Stake",
+          };
+          setMessage(obj2);
+          console.log("Error in Withdraw: ", error);
         }
       } else {
-        console.log("Whoops...", "You don't have enough balance.");
-      }
-    }
-  };
-
-  const checkAllowance = async () => {
-    const web3 = window.web3;
-    let tokenContract = new web3.eth.Contract(tokenabi, tokenAddress);
-    let allowance = await tokenContract.methods
-      .allowance(state.mainAccount, contractAddress)
-      .call();
-    return allowance;
-  };
-
-  const unStakeZin = async (amount = 80) => {
-    // let _amount = amount.toString();
-    let _amount = "80";
-    if (state.mainAccount === null) {
-      console.log("Whoops...", "Metamask is not connected.");
-    } else {
-      const web3 = window.web3;
-      let contract = new web3.eth.Contract(abi, contractAddress);
-      contract.methods
-        .unStakeZin(web3.utils.toWei(_amount, "ether"))
-        .send({ from: state.mainAccount })
-        .on("receipt", async (receipt) => {
-          console.log("Unstake Reciept: ", receipt);
-          let tokens = await getZinTokens(state.mainAccount);
-          let stakeOf = await getStakeOf(contract, state.mainAccount);
-          let totalStakes = await getTotalStake(contract);
-          // let percentOfTotalStake =
-          //   (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-          //     parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-          //   100;
-          // setState({
-          //   totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
-          //   stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-          //   percentOfTotalStake: percentOfTotalStake,
-          // });
-        })
-        .on("transactionHash", async (hash) => {
-          console.log("Unstake Transaction Hash: ", hash);
-        });
-    }
-  };
-
-  const withdrawZinTokens = async () => {
-    if (state.mainAccount === null) {
-      console.log("Whoops...", "Metamask is not connected.");
-    } else {
-      try {
-        const web3 = window.web3;
-        let contract = new web3.eth.Contract(abi, contractAddress);
-        let rewards = await contract.methods
-          .withdrawReward()
-          .send({
-            from: state.mainAccount,
-          })
-          .on("receipt", async (receipt) => {
-            let tokens = await getZinTokens(state.mainAccount);
-            let stakeOf = await getStakeOf(contract, state.mainAccount);
-            let totalStakes = await getTotalStake(contract);
-            let percentOfTotalStake =
-              (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-                parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-              100;
-            setState({
-              totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
-              stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-              percentOfTotalStake: percentOfTotalStake,
-            });
-          })
-          .on("transactionHash", (hash) => {
-            console.log("Withdraw Hash: ", hash);
-          });
-      } catch (error) {
-        console.log("Error in Withdraw: ", error);
-      }
-    }
-  };
-
-  const reInvestZinTokens = async () => {
-    if (state.mainAccount === null) {
-      console.log("Whoops...", "Metamask is not connected.");
-    } else {
-      try {
-        const web3 = window.web3;
-        let contract = new web3.eth.Contract(abi, contractAddress);
-        let reinvest = await contract.methods
-          .reinvest()
-          .send({
-            from: state.mainAccount,
-          })
-          .on("receipt", async (receipt) => {
-            let tokens = await getZinTokens(state.mainAccount);
-            let stakeOf = await getStakeOf(contract, state.mainAccount);
-            let totalStakes = await getTotalStake(contract);
-            let percentOfTotalStake =
-              (parseInt(web3.utils.fromWei(stakeOf, "ether")) /
-                parseInt(web3.utils.fromWei(totalStakes, "ether"))) *
-              100;
-            setState({
-              totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
-              stakeOf: parseInt(web3.utils.fromWei(stakeOf, "ether")),
-              percentOfTotalStake: percentOfTotalStake,
-            });
-          })
-          .on("transactionHash", (hash) => {
-            console.log("Reinvest Hash: ", hash);
-          });
-      } catch (error) {
-        console.log("Error in reinvest: ", error);
+        let obj2 = {
+          show: true,
+          severity: "error",
+          message: "You don't have any reward",
+          title: "",
+        };
+        setMessage(obj2);
       }
     }
   };
@@ -766,21 +428,24 @@ const Home = () => {
     if (address !== null || address !== undefined) {
       try {
         const web3 = window.web3;
-        console.log("Fetched reward: ");
-
         let reward = await contract.methods.rewardOfEachUser(address).call();
+        // Earned zYF
         console.log("Fetched reward: ", reward);
-        setState({
-          rewards: parseInt(web3.utils.fromWei(reward, "ether")),
-        });
+        setRewards(parseInt(web3.utils.fromWei(reward, "ether")));
         setInterval(async () => {
           let reward = await contract.methods.rewardOfEachUser(address).call();
           console.log("Fetched reward: ", reward);
-          setState({
-            rewards: parseInt(web3.utils.fromWei(reward, "ether")),
-          });
+
+          setRewards(parseInt(web3.utils.fromWei(reward, "ether")));
         }, 8000);
       } catch (error) {
+        let obj = {
+          show: true,
+          severity: "error",
+          message: "Error while fetching rewards",
+          title: "Fetching Rewards",
+        };
+        setMessage(obj);
         console.log("Error while fetching rewards: ", error);
       }
     }
@@ -790,15 +455,50 @@ const Home = () => {
     let totalStakes = await contract.methods.totalStakes().call();
     return totalStakes;
   };
+  // eslint-disable-next-line
   useEffect(async () => {
     // await loadWeb3();
     // console.log(await getAccounts());
     // console.log(await getBalanceOfAccount());
   }, []);
+
   return (
     <div>
-      <Header loadWeb3={loadWeb3} account={account} />
+      <Dialog
+        open={openStakeDialog}
+        confirm={stakeZin}
+        handleClose={handleCloseStake}
+        enteredAmount={enteredAmount}
+        setEnteredAmount={setEnteredAmount}
+      />
+      <Backdrop
+        className={classes.backdrop}
+        open={openBackdrop}
+        // open={true}
+        onClick={handleCloseBackdrop}
+      >
+        <CircularProgress color="inherit" />
+        {dropMessage}
+      </Backdrop>
+      <div
+        className={classes.root}
+        style={{ position: "absolute", top: "50%", bottom: "50%" }}
+      >
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={message?.show}
+          onClose={handleClose}
+          autoHideDuration={9000}
+        >
+          <AlertComponent onClose={handleClose} severity={message?.severity}>
+            {/* <AlertTitle>{message?.title}</AlertTitle> */}
+            {message?.message}
+          </AlertComponent>
+        </Snackbar>
+      </div>
 
+      <Header loadWeb3={loadWeb3} account={account} />
+      {console.log("account========", account)}
       <Grid container style={{ display: "flex", justifyContent: "center" }}>
         <Grid item xs={12} xm={12} md={8} lg={6} xl={6}>
           <Grid container>
@@ -811,7 +511,7 @@ const Home = () => {
                 marginBottom: "20px",
               }}
             >
-              <Card />
+              <Card accountDetails={mainAccountDetails} />
             </Grid>
           </Grid>
           <Grid
@@ -834,7 +534,11 @@ const Home = () => {
                 marginBottom: "20px",
               }}
             >
-              <StackingCard stake={stakeZin} unStake={unStakeZin} />
+              <StackingCard
+                accountDetails={mainAccountDetails}
+                stake={handleOpenStake}
+                unStake={unStakeZin}
+              />
             </Grid>
             <Grid
               item
@@ -849,7 +553,11 @@ const Home = () => {
                 marginBottom: "20px",
               }}
             >
-              <DepositeCard withdrawZinTokens={withdrawZinTokens} />
+              <DepositeCard
+                withdraw={withdraw}
+                showTimer={showTimer}
+                rewards={rewards}
+              />
             </Grid>
           </Grid>
         </Grid>

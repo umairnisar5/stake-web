@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
-import Logo from "../asset/logo.png";
 import ZinIcon from "../asset/zin-icon.png";
 import LinkOutline from "../asset/link-outline.png";
 
@@ -96,7 +95,7 @@ const Introduction = () => {
             <Button
               variant="contained"
               className={classes.button}
-              startIcon={<img src={ZinIcon} />}
+              startIcon={<img src={ZinIcon} alt=" icon" />}
             >
               1 Zin = $0.028
             </Button>
@@ -106,7 +105,7 @@ const Introduction = () => {
           <Button
             variant="contained"
             className={classes.verifyButton}
-            startIcon={<img src={LinkOutline} />}
+            startIcon={<img src={LinkOutline} alt=" stake" />}
           >
             Verified Zin Contract
           </Button>

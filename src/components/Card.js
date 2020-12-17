@@ -1,14 +1,100 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import { Grid } from "@material-ui/core";
 import { borderColor, textColor, secondaryColor } from "../utils/constants";
 import "./Card.css";
+import moment from "moment";
+export default function SimpleCard(props) {
+  let date = new Date().toISOString();
+  const [remaningDays, setRemaningDays] = useState(null);
+  const { accountDetails } = props;
+  const classes = useStyles();
+  useEffect(() => {
+    console.log(accountDetails?.deposit_time);
+    if (parseInt(accountDetails?.deposit_time) === 0) {
+    }
+  }, [accountDetails]);
+  useEffect(() => {
+    setInterval(function () {
+      counter();
+    }, 1000);
+  }, []);
+  var b = moment(moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days"))
+    .toDate;
+  var a = moment(new Date().toISOString());
+  console.log(new Date().toISOString());
+  const counter = () => {
+    setRemaningDays(`${moment
+      .duration(
+        moment(
+          moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+        ).diff(moment(new Date().toISOString()))
+      )
+      .days()}
+        :${moment
+          .duration(
+            moment(
+              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+            ).diff(moment(new Date().toISOString()))
+          )
+          .hours()}
+        :${moment
+          .duration(
+            moment(
+              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+            ).diff(moment(new Date().toISOString()))
+          )
+          .minutes()}
+        :${moment
+          .duration(
+            moment(
+              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+            ).diff(moment(new Date().toISOString()))
+          )
+          .seconds()}`);
+  };
+
+  return (
+    <Card
+      className="ro"
+      style={{
+        background: secondaryColor,
+        border: `1.5px solid ${borderColor}`,
+      }}
+    >
+      <CardContent>
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography className={classes.pos} gutterBottom>
+              Statistics
+            </Typography>
+          </Grid>
+          <Grid item xs={12} style={{ margin: "20px 0px" }}>
+            <Typography className={classes.title}>
+              TVL: <span style={{ color: textColor }}>$10,000</span>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography className={classes.title}>
+              {
+                <>
+                  <span style={{ color: textColor }}></span>
+                  {/* {counter()} days left */}
+                  {props?.showTimer && remaningDays}
+                </>
+              }
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+}
+
 const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
@@ -32,39 +118,3 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
-  return (
-    <Card
-      className="ro"
-      id="roots"
-      style={{
-        background: secondaryColor,
-        border: `1.5px solid ${borderColor}`,
-      }}
-    >
-      <CardContent>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography className={classes.pos} gutterBottom>
-              Statistics
-            </Typography>
-          </Grid>
-          <Grid item xs={12} style={{ margin: "20px 0px" }}>
-            <Typography className={classes.title}>
-              TVL: <span style={{ color: textColor }}>$10,000</span>
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className={classes.title}>
-              APR: <span style={{ color: textColor }}>10,049.79%</span>
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-}
