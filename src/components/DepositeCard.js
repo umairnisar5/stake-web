@@ -68,12 +68,20 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-
+  // eslint-disable-next-line
+  const [reward, setReward] = React.useState(props?.rewards);
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Grid container style={{ margin: "10px 0px 5px 0px" }}>
-          <Grid item xs={2}>
+        <Grid
+          container
+          style={{
+            margin: "10px 0px 5px 0px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Grid item>
             <Typography className={classes.title} gutterBottom>
               <img
                 alt="logo"
@@ -82,13 +90,11 @@ export default function SimpleCard(props) {
               ></img>
             </Typography>
           </Grid>
-
-          <Grid item xs={2} />
         </Grid>
         <Grid container>
           <Grid item xs={12} style={{ margin: "0px 0px" }}>
             <Typography className={classes.pos} style={{ color: textColor }}>
-              {props?.rewards}
+              {reward}
             </Typography>
           </Grid>
         </Grid>
@@ -111,7 +117,7 @@ export default function SimpleCard(props) {
               className={classes.button}
               onClick={props?.withdraw}
             >
-              withdraw!
+              Harvest
             </Button>
           </Grid>
         </Grid>

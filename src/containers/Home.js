@@ -7,12 +7,17 @@ import StackingCard from "../components/StackingCard";
 import DepositeCard from "../components/DepositeCard";
 import { Grid } from "@material-ui/core";
 import { Snackbar } from "@material-ui/core";
+// eslint-disable-next-line
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "../components/Dialog";
+// eslint-disable-next-line
 import { tokenabi, abi } from "./data";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
+// eslint-disable-next-line
+const NumberFormat = require("react-number-format");
 
 function AlertComponent(props) {
   return <Alert elevation={6} variant="filled" {...props} />;
@@ -35,6 +40,7 @@ const Home = () => {
   const [enteredAmount, setEnteredAmount] = useState(0);
   const [rewards, setRewards] = useState(0);
   const [mainAccountDetails, setMainAccountDetails] = useState(null);
+  const [mainAccountStake, setMainAccountStake] = useState(null);
   const [message, setMessage] = useState({
     show: false,
     severity: "",
@@ -64,6 +70,8 @@ const Home = () => {
     });
     //hide here
   };
+  // usdRate
+  // eslint-disable-next-line
   const [state, setState] = useState({
     mainAccount: null,
     totalZinTokens: null,
@@ -78,7 +86,19 @@ const Home = () => {
     setOpenStakeDialog(true);
   };
   const [account, setAccount] = useState(null);
-  // contractAddress = "0xd224Cd7CBA3A4Ad3A0fF5386711Dc08556b236E4";
+  const [usdRate, setUsdRate] = useState(null);
+  // eslint-disable-next-line
+  useEffect(async () => {
+    await axios
+      .get(
+        "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,IOT&tsyms=USD"
+      )
+      .then((res) => {
+        const cryptos = res.data;
+        console.log(cryptos["ETH"].USD);
+        setUsdRate(cryptos["ETH"].USD);
+      });
+  }, []);
   // eslint-disable-next-line
   const [contractAddress, setContractAddress] = useState(
     "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
@@ -101,6 +121,13 @@ const Home = () => {
         isConnected = true;
       } else {
         isConnected = false;
+        let obj = {
+          show: true,
+          severity: "info",
+          message:
+            "Metamask is not installed, please install it on your browser to connect.",
+        };
+        setMessage(obj);
         //  showAlert(
         //   "Whoops...",
         //   "<p className='txtAlert'>Metamask is not installed, please install it on your browser to connect.</p><a target='_blank' href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en'>https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en</a>"
@@ -121,8 +148,13 @@ const Home = () => {
 
         accountDetails = await contract.methods.userData(accounts[0]).call();
         setMainAccountDetails(accountDetails);
-        return parseInt(accountDetails.stakes);
+
+        setMainAccountStake(
+          parseInt(web3.utils.fromWei(accountDetails.stakes, "ether"))
+        );
+
         await getRewardOnInterval(contract, accounts[0]);
+        return parseInt(accountDetails.stakes);
       }
     } catch (error) {
       console.log(error);
@@ -168,7 +200,7 @@ const Home = () => {
       console.log("Resp: ", res);
     });
   };
-
+  // eslint-disable-next-line
   const getZinTokens = async (address) => {
     //   console.log("Account: ", address);
     //   const web3 = window.web3;
@@ -176,7 +208,7 @@ const Home = () => {
     //   // let tokens = await tokenContract.methods.balanceOf(address).call();
     //   return tokens;
   };
-
+  // eslint-disable-next-line
   const getStakeOf = async (contract, address) => {
     try {
       let stake = await contract.methods.stakeOf(address).call();
@@ -195,15 +227,12 @@ const Home = () => {
     let amount = accountDetails.stakes;
     console.log(parseInt(accountDetails.stakes));
     console.log(amount);
-
+    setMainAccountStake(
+      parseInt(web3.utils.fromWei(accountDetails.stakes, "ether"))
+    );
     return parseInt(accountDetails.stakes);
   };
 
-  // useEffect(() => {
-  //   if (account !== null) {
-  //     getUserData();
-  //   }
-  // }, [account]);
   const stakeZin = async (amount) => {
     if (amount < 1) {
       let obj = {
@@ -345,7 +374,7 @@ const Home = () => {
         let obj = {
           show: true,
           severity: "info",
-          message: "You have no stake",
+          message: "You have nothing staked",
         };
         setMessage(obj);
       }
@@ -364,13 +393,13 @@ const Home = () => {
       };
       setMessage(obj2);
     } else {
+      setShowTimer(true);
+
       if (rewards > 0) {
-        setShowTimer(true);
         try {
           const web3 = window.web3;
           let contract = new web3.eth.Contract(abi, contractAddress);
           // eslint-disable-next-line
-          console.log("call widthdraw");
           let rewards = await contract.methods
             .withdrawReward()
             .send({
@@ -450,17 +479,11 @@ const Home = () => {
       }
     }
   };
-
+  // eslint-disable-next-line
   const getTotalStake = async (contract) => {
     let totalStakes = await contract.methods.totalStakes().call();
     return totalStakes;
   };
-  // eslint-disable-next-line
-  useEffect(async () => {
-    // await loadWeb3();
-    // console.log(await getAccounts());
-    // console.log(await getBalanceOfAccount());
-  }, []);
 
   return (
     <div>
@@ -474,7 +497,6 @@ const Home = () => {
       <Backdrop
         className={classes.backdrop}
         open={openBackdrop}
-        // open={true}
         onClick={handleCloseBackdrop}
       >
         <CircularProgress color="inherit" />
@@ -491,7 +513,6 @@ const Home = () => {
           autoHideDuration={9000}
         >
           <AlertComponent onClose={handleClose} severity={message?.severity}>
-            {/* <AlertTitle>{message?.title}</AlertTitle> */}
             {message?.message}
           </AlertComponent>
         </Snackbar>
@@ -511,7 +532,11 @@ const Home = () => {
                 marginBottom: "20px",
               }}
             >
-              <Card accountDetails={mainAccountDetails} />
+              <Card
+                usdRate={usdRate}
+                accountDetails={mainAccountDetails}
+                showTimer={showTimer}
+              />
             </Grid>
           </Grid>
           <Grid
@@ -535,6 +560,7 @@ const Home = () => {
               }}
             >
               <StackingCard
+                mainAccountStake={mainAccountStake}
                 accountDetails={mainAccountDetails}
                 stake={handleOpenStake}
                 unStake={unStakeZin}

@@ -9,50 +9,57 @@ import { borderColor, textColor, secondaryColor } from "../utils/constants";
 import "./Card.css";
 import moment from "moment";
 export default function SimpleCard(props) {
-  let date = new Date().toISOString();
   const [remaningDays, setRemaningDays] = useState(null);
   const { accountDetails } = props;
   const classes = useStyles();
   useEffect(() => {
-    console.log(accountDetails?.deposit_time);
     if (parseInt(accountDetails?.deposit_time) === 0) {
     }
   }, [accountDetails]);
   useEffect(() => {
-    setInterval(function () {
-      counter();
-    }, 1000);
-  }, []);
-  var b = moment(moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days"))
-    .toDate;
-  var a = moment(new Date().toISOString());
-  console.log(new Date().toISOString());
+    if (accountDetails?.deposit_time) {
+      setInterval(function () {
+        counter();
+      }, 1000);
+    }
+    // eslint-disable-next-line
+  }, [props]);
+
   const counter = () => {
-    setRemaningDays(`${moment
-      .duration(
-        moment(
-          moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
-        ).diff(moment(new Date().toISOString()))
-      )
-      .days()}
+    accountDetails?.deposit_time &&
+      setRemaningDays(`${moment
+        .duration(
+          moment(
+            moment(
+              new Date(accountDetails?.deposit_time * 1000).toISOString()
+            ).add(7, "days")
+          ).diff(moment(new Date().toISOString()))
+        )
+        .days()}
         :${moment
           .duration(
             moment(
-              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+              moment(
+                new Date(accountDetails?.deposit_time * 1000).toISOString()
+              ).add(7, "days")
             ).diff(moment(new Date().toISOString()))
           )
           .hours()}
         :${moment
           .duration(
             moment(
-              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+              moment(
+                new Date(accountDetails?.deposit_time * 1000).toISOString()
+              ).add(7, "days")
             ).diff(moment(new Date().toISOString()))
           )
           .minutes()}
         :${moment
           .duration(
             moment(
-              moment(new Date("2020-12-17T18:07:41.827Z")).add(7, "days")
+              moment(
+                new Date(accountDetails?.deposit_time * 1000).toISOString()
+              ).add(7, "days")
             ).diff(moment(new Date().toISOString()))
           )
           .seconds()}`);
@@ -75,7 +82,7 @@ export default function SimpleCard(props) {
           </Grid>
           <Grid item xs={12} style={{ margin: "20px 0px" }}>
             <Typography className={classes.title}>
-              TVL: <span style={{ color: textColor }}>$10,000</span>
+              TVL: <span style={{ color: textColor }}>${props?.usdRate}</span>
             </Typography>
           </Grid>
           <Grid item xs={12}>

@@ -71,34 +71,35 @@ export default function SimpleCard(props) {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Grid container style={{ margin: "10px 0px 5px 0px" }}>
-          <Grid item xs={2}>
+        <Grid
+          container
+          style={{
+            margin: "10px 0px 5px 0px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Grid item>
             <Typography className={classes.pos} gutterBottom>
               <img
                 alt="not found"
                 src={Logo}
-                style={{ width: "100px", height: "60px" }}
+                style={{ width: "60px", height: "60px" }}
               ></img>
             </Typography>
           </Grid>
-
-          <Grid item xs={2} />
         </Grid>
         <Grid container>
           <Grid item xs={12} style={{ margin: "0px 0px" }}>
             <Typography className={classes.pos} style={{ color: textColor }}>
-              {props?.accountDetails?.stakes
-                ? parseInt(props?.accountDetails?.stakes)
-                : 0}
+              {props?.mainAccountStake ? props?.mainAccountStake : 0}
               {/* user stake which was 0 */}
             </Typography>
           </Grid>
         </Grid>
         <Grid container style={{ margin: "0px 0px 10px 0px" }}>
           <Grid item xs={12}>
-            <Typography className={classes.title}>
-              Staked ETH LP tokens
-            </Typography>
+            <Typography className={classes.title}>Staked ETH</Typography>
           </Grid>
         </Grid>
         <Grid container>
