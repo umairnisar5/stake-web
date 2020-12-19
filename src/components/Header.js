@@ -53,10 +53,8 @@ const Header = (props) => {
     const web3 = window.web3;
 
     const accounts = await web3.eth.getAccounts();
-    console.log("account", accounts);
     setAccount(account && accounts[0]);
     const networkId = await web3.eth.net.getId();
-    console.log("networkId", networkId);
   };
   // eslint-disable-next-line
   const loadWeb3 = async () => {};
@@ -73,17 +71,13 @@ const Header = (props) => {
 
       const networkId = await web3.eth.net.getId();
       console.log("networkId", networkId);
-      web3.eth.getBalance(accounts[0], (err, balance) => {
-        console.log("balance:", balance);
-        console.log(err);
-      });
+      web3.eth.getBalance(accounts[0], (err, balance) => {});
     } else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider);
       const web3 = window.web3;
 
       const accounts = await web3.eth.getAccounts();
       setAccount(accounts[0]);
-      console.log("account", accounts);
       web3.eth.getBalance(accounts[0], (err, balance) => {
         console.log("balance:", balance);
         console.log(err);
@@ -141,7 +135,9 @@ const Header = (props) => {
             className={classes.button}
             startIcon={<img src={MetaMask} alt="metmask" />}
           >
-            {props?.account === null ? "Connect Wallet" : "Connected"}
+            {props?.account === null
+              ? "Connect Wallet"
+              : props?.account?.substring(0, 11) + "..."}
           </Button>
         </Grid>
       </Grid>

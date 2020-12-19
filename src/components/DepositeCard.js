@@ -86,7 +86,7 @@ export default function SimpleCard(props) {
               <img
                 alt="logo"
                 src={Logo}
-                style={{ width: "60px", height: "60px" }}
+                style={{ width: "60px", height: "60px", borderRadius: "50%" }}
               ></img>
             </Typography>
           </Grid>

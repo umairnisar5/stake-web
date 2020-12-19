@@ -85,6 +85,7 @@ const Home = () => {
   const handleOpenStake = () => {
     setOpenStakeDialog(true);
   };
+  const [totalStakesAmount, setTotalStakeAmount] = useState(0);
   const [account, setAccount] = useState(null);
   const [usdRate, setUsdRate] = useState(null);
   // eslint-disable-next-line
@@ -99,9 +100,10 @@ const Home = () => {
         setUsdRate(cryptos["ETH"].USD);
       });
   }, []);
+  // "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
   // eslint-disable-next-line
   const [contractAddress, setContractAddress] = useState(
-    "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
+    "0x876d5B3e9ecD0a9B2e5D44ADcAc746f77C6bbf06"
   );
   // eslint-disable-next-line
   const [tokenAddress, setTokenAddress] = useState(
@@ -123,7 +125,7 @@ const Home = () => {
         isConnected = false;
         let obj = {
           show: true,
-          severity: "info",
+          severity: "error",
           message:
             "Metamask is not installed, please install it on your browser to connect.",
         };
@@ -152,7 +154,9 @@ const Home = () => {
         setMainAccountStake(
           parseInt(web3.utils.fromWei(accountDetails.stakes, "ether"))
         );
-
+        let totalStakes = await contract.methods.totalStakes().call();
+        console.log("total stakes", totalStakes);
+        setTotalStakeAmount(totalStakes);
         await getRewardOnInterval(contract, accounts[0]);
         return parseInt(accountDetails.stakes);
       }
@@ -418,6 +422,8 @@ const Home = () => {
             })
             .on("receipt", async (receipt) => {
               console.log("recept", receipt);
+              handleCloseBackdrop();
+              setDropMessage("");
             })
             .on("error", async (error) => {
               console.log("error", error);
@@ -459,14 +465,11 @@ const Home = () => {
         const web3 = window.web3;
         let reward = await contract.methods.rewardOfEachUser(address).call();
         // Earned zYF
-        console.log("Fetched reward: ", reward);
-        setRewards(parseInt(web3.utils.fromWei(reward, "ether")));
+        setRewards(parseInt(web3.utils.fromWei(reward?.payout, "ether")));
         setInterval(async () => {
           let reward = await contract.methods.rewardOfEachUser(address).call();
-          console.log("Fetched reward: ", reward);
-
-          setRewards(parseInt(web3.utils.fromWei(reward, "ether")));
-        }, 8000);
+          setRewards(parseInt(web3.utils.fromWei(reward?.payout, "ether")));
+        }, 5000);
       } catch (error) {
         let obj = {
           show: true,
@@ -480,10 +483,11 @@ const Home = () => {
     }
   };
   // eslint-disable-next-line
-  const getTotalStake = async (contract) => {
-    let totalStakes = await contract.methods.totalStakes().call();
-    return totalStakes;
-  };
+  // const getTotalStake = async (contract) => {
+  //   let totalStakes = await contract.methods.totalStakes().call();
+  //   console.log("total stakes", totalStakes);
+  //   return totalStakes;
+  // };
 
   return (
     <div>
@@ -497,7 +501,7 @@ const Home = () => {
       <Backdrop
         className={classes.backdrop}
         open={openBackdrop}
-        onClick={handleCloseBackdrop}
+        // onClick={handleCloseBackdrop}
       >
         <CircularProgress color="inherit" />
         {dropMessage}
@@ -519,7 +523,6 @@ const Home = () => {
       </div>
 
       <Header loadWeb3={loadWeb3} account={account} />
-      {console.log("account========", account)}
       <Grid container style={{ display: "flex", justifyContent: "center" }}>
         <Grid item xs={12} xm={12} md={8} lg={6} xl={6}>
           <Grid container>
@@ -536,6 +539,7 @@ const Home = () => {
                 usdRate={usdRate}
                 accountDetails={mainAccountDetails}
                 showTimer={showTimer}
+                totalStakesAmount={totalStakesAmount}
               />
             </Grid>
           </Grid>

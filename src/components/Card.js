@@ -10,6 +10,7 @@ import "./Card.css";
 import moment from "moment";
 export default function SimpleCard(props) {
   const [remaningDays, setRemaningDays] = useState(null);
+  const [rewardReady, setRewardReady] = useState(false);
   const { accountDetails } = props;
   const classes = useStyles();
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function SimpleCard(props) {
       }, 1000);
     }
     // eslint-disable-next-line
+    counter2();
   }, [props]);
 
   const counter = () => {
@@ -36,7 +38,7 @@ export default function SimpleCard(props) {
           ).diff(moment(new Date().toISOString()))
         )
         .days()}
-        :${moment
+        : ${moment
           .duration(
             moment(
               moment(
@@ -45,7 +47,7 @@ export default function SimpleCard(props) {
             ).diff(moment(new Date().toISOString()))
           )
           .hours()}
-        :${moment
+        : ${moment
           .duration(
             moment(
               moment(
@@ -54,7 +56,7 @@ export default function SimpleCard(props) {
             ).diff(moment(new Date().toISOString()))
           )
           .minutes()}
-        :${moment
+        : ${moment
           .duration(
             moment(
               moment(
@@ -63,6 +65,19 @@ export default function SimpleCard(props) {
             ).diff(moment(new Date().toISOString()))
           )
           .seconds()}`);
+  };
+  const counter2 = () => {
+    accountDetails?.deposit_time &&
+      setRewardReady(
+        moment(
+          moment(new Date("2020-12-18T18:52:31.433Z").toISOString()).add(
+            7,
+            "days"
+          )
+        ).diff(moment(new Date().toISOString())) === 0
+          ? true
+          : false
+      );
   };
 
   return (
@@ -82,7 +97,15 @@ export default function SimpleCard(props) {
           </Grid>
           <Grid item xs={12} style={{ margin: "20px 0px" }}>
             <Typography className={classes.title}>
-              TVL: <span style={{ color: textColor }}>${props?.usdRate}</span>
+              TVL:{" "}
+              <span style={{ color: textColor }}>
+                ${props?.usdRate * props?.totalStakesAmount}
+              </span>
+            </Typography>
+          </Grid>
+          <Grid item xs={12} style={{ margin: "0px 0px 20px 0px" }}>
+            <Typography className={classes.title}>
+              APY: <span style={{ color: textColor }}> 100%</span>
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -91,7 +114,10 @@ export default function SimpleCard(props) {
                 <>
                   <span style={{ color: textColor }}></span>
                   {/* {counter()} days left */}
-                  {props?.showTimer && remaningDays}
+                  {rewardReady
+                    ? "Reward is ready to harvest"
+                    : parseInt(accountDetails?.deposit_time) !== 0 &&
+                      remaningDays}
                 </>
               }
             </Typography>
