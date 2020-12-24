@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -70,6 +70,10 @@ export default function SimpleCard(props) {
   const classes = useStyles();
   // eslint-disable-next-line
   const [reward, setReward] = React.useState(props?.rewards);
+  useEffect(() => {
+    setReward(props?.rewards);
+    // eslint-disable-next-line
+  }, [props?.rewards]);
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -94,7 +98,7 @@ export default function SimpleCard(props) {
         <Grid container>
           <Grid item xs={12} style={{ margin: "0px 0px" }}>
             <Typography className={classes.pos} style={{ color: textColor }}>
-              {reward}
+              {reward ? (reward?.toString() === "0.000" ? 0 : reward) : 0}
             </Typography>
           </Grid>
         </Grid>

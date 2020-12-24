@@ -16,6 +16,8 @@ import { tokenabi, abi } from "./data";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
+import moment from "moment";
+import { getTVLValue } from "./index(2)";
 // eslint-disable-next-line
 const NumberFormat = require("react-number-format");
 
@@ -51,6 +53,7 @@ const Home = () => {
   const [dropMessage, setDropMessage] = useState("");
   const classes = useStyles();
   const [openBackdrop, setOpenBackdrop] = React.useState(false);
+  const [rewardReady, setRewardReady] = useState(false);
   const handleCloseBackdrop = () => {
     setOpenBackdrop(false);
   };
@@ -88,6 +91,7 @@ const Home = () => {
   const [totalStakesAmount, setTotalStakeAmount] = useState(0);
   const [account, setAccount] = useState(null);
   const [usdRate, setUsdRate] = useState(null);
+  let rev = null;
   // eslint-disable-next-line
   useEffect(async () => {
     await axios
@@ -103,7 +107,7 @@ const Home = () => {
   // "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
   // eslint-disable-next-line
   const [contractAddress, setContractAddress] = useState(
-    "0x876d5B3e9ecD0a9B2e5D44ADcAc746f77C6bbf06"
+    "0x0DE97C875dd68d8A269cfb7Ec9D5c4c544751979"
   );
   // eslint-disable-next-line
   const [tokenAddress, setTokenAddress] = useState(
@@ -140,25 +144,40 @@ const Home = () => {
         let contract = new web3.eth.Contract(abi, contractAddress);
         let accounts = await getAccounts();
         setAccount(accounts[0]);
-        // let tokens = await getZinTokens(accounts[0]);
 
         setState({
           mainAccount: accounts[0],
-          // totalZinTokens: parseInt(web3.utils.fromWei(tokens, "ether")),
         });
-        let accountDetails = null;
 
+        let accountDetails = null;
+        window.ethereum.on("accountsChanged", function (accounts) {
+          clearInterval(rev);
+          setAccount(accounts[0]);
+          getUpdateAccount(accounts);
+          console.log(accounts);
+          localStorage.setItem("load", accounts[0]);
+        });
         accountDetails = await contract.methods.userData(accounts[0]).call();
         setMainAccountDetails(accountDetails);
 
         setMainAccountStake(
-          parseInt(web3.utils.fromWei(accountDetails.stakes, "ether"))
+          parseFloat(
+            web3.utils.fromWei(accountDetails.stakes, "ether")
+          ).toFixed(3)
         );
-        let totalStakes = await contract.methods.totalStakes().call();
-        console.log("total stakes", totalStakes);
-        setTotalStakeAmount(totalStakes);
+
+        accountDetails?.deposit_time &&
+          setRewardReady(
+            moment(
+              moment(
+                new Date(accountDetails?.deposit_time * 1000).toISOString()
+              ).add(7, "days")
+            ).diff(moment(new Date().toISOString())) === 0
+              ? true
+              : false
+          );
         await getRewardOnInterval(contract, accounts[0]);
-        return parseInt(accountDetails.stakes);
+        return parseFloat(accountDetails.stakes).toFixed(3);
       }
     } catch (error) {
       console.log(error);
@@ -172,6 +191,48 @@ const Home = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (
+  //     localStorage.getItem("load") !== null &&
+  //     localStorage.getItem("load") !== undefined
+  //   ) {
+  //     window.location.reload();
+
+  //     loadWeb3();
+  //   }
+  // }, [localStorage.getItem("load")]);
+  // useEffect(() => {
+  //   if (
+  //     localStorage.getItem("load") !== null &&
+  //     localStorage.getItem("load") !== undefined
+  //   ) {
+  //     loadWeb3();
+  //     localStorage.removeItem("load");
+  //   }
+  //   console.log(" localStorage.getItem() ", localStorage.getItem("load"));
+  // }, []);
+  const getUpdateAccount = async (accounts) => {
+    const web3 = window.web3;
+    let contract = new web3.eth.Contract(abi, contractAddress);
+    let accountDetails = await contract.methods.userData(accounts[0]).call();
+    setMainAccountDetails(accountDetails);
+
+    setMainAccountStake(
+      parseFloat(web3.utils.fromWei(accountDetails.stakes, "ether")).toFixed(3)
+    );
+
+    accountDetails?.deposit_time &&
+      setRewardReady(
+        moment(
+          moment(
+            new Date(accountDetails?.deposit_time * 1000).toISOString()
+          ).add(7, "days")
+        ).diff(moment(new Date().toISOString())) === 0
+          ? true
+          : false
+      );
+    await getRewardOnInterval(contract, accounts[0]);
+  };
   const getAccounts = async () => {
     const web3 = window.web3;
     try {
@@ -229,15 +290,16 @@ const Home = () => {
 
     accountDetails = await contract.methods.userData(account).call();
     let amount = accountDetails.stakes;
-    console.log(parseInt(accountDetails.stakes));
+    console.log(parseFloat(accountDetails.stakes).toFixed(3));
     console.log(amount);
     setMainAccountStake(
-      parseInt(web3.utils.fromWei(accountDetails.stakes, "ether"))
+      parseFloat(web3.utils.fromWei(accountDetails.stakes, "ether")).toFixed(3)
     );
-    return parseInt(accountDetails.stakes);
+    return parseFloat(accountDetails.stakes).toFixed(3);
   };
 
   const stakeZin = async (amount) => {
+    console.log("");
     if (amount < 1) {
       let obj = {
         show: true,
@@ -260,7 +322,7 @@ const Home = () => {
       } else {
         let stakeAmount = await getUserData();
         handleCloseStake();
-        if (stakeAmount !== 0) {
+        if (!(stakeAmount < 1)) {
           let obj = {
             show: true,
             severity: "info",
@@ -299,7 +361,9 @@ const Home = () => {
                   message: "Your transaction is confirmed",
                   title: "Stake",
                 };
+                handleCloseBackdrop();
                 setMessage(obj);
+                stakeAmount = await getUserData();
               })
               .on("error", async (error) => {
                 console.log("error", error);
@@ -341,7 +405,7 @@ const Home = () => {
       setMessage(obj2);
     } else {
       let stakeAmount = await getUserData();
-      if (stakeAmount > 0) {
+      if (stakeAmount > 0 && rewardReady) {
         const web3 = window.web3;
 
         let contract = new web3.eth.Contract(abi, contractAddress);
@@ -360,7 +424,10 @@ const Home = () => {
             setDropMessage("Your transaction is pending");
           })
           .on("receipt", async (receipt) => {
-            console.log("Unstake Reciept: ", receipt);
+            console.log("recept", receipt);
+            handleCloseBackdrop();
+            setDropMessage("");
+            stakeAmount = await getUserData();
           })
           .on("error", async (error) => {
             console.log("error", error);
@@ -372,13 +439,17 @@ const Home = () => {
             };
             setMessage(obj);
             handleCloseBackdrop();
-            setDropMessage("Your transaction is pending");
+            setDropMessage("");
           });
       } else {
+        console.log(stakeAmount);
         let obj = {
           show: true,
           severity: "info",
-          message: "You have nothing staked",
+          message:
+            stakeAmount.toString() === "0.000"
+              ? "You have nothing stake"
+              : "Please wait for the timer to run out before unstaking",
         };
         setMessage(obj);
       }
@@ -424,6 +495,8 @@ const Home = () => {
               console.log("recept", receipt);
               handleCloseBackdrop();
               setDropMessage("");
+              // eslint-disable-next-line
+              let stakeAmount = await getUserData();
             })
             .on("error", async (error) => {
               console.log("error", error);
@@ -464,12 +537,36 @@ const Home = () => {
       try {
         const web3 = window.web3;
         let reward = await contract.methods.rewardOfEachUser(address).call();
+        console.log("reward", reward);
         // Earned zYF
-        setRewards(parseInt(web3.utils.fromWei(reward?.payout, "ether")));
-        setInterval(async () => {
+        setRewards(
+          parseFloat(web3.utils.fromWei(reward?.payout, "ether")).toFixed(3)
+        );
+        console.log("interval clearend", rev);
+        if (rev) {
+          clearInterval(rev);
+        }
+        async function newF() {
           let reward = await contract.methods.rewardOfEachUser(address).call();
-          setRewards(parseInt(web3.utils.fromWei(reward?.payout, "ether")));
-        }, 5000);
+          setRewards(
+            parseFloat(web3.utils.fromWei(reward?.payout, "ether")).toFixed(3)
+          );
+          console.log(
+            parseFloat(web3.utils.fromWei(reward?.payout, "ether")).toFixed(3)
+          );
+          // setTimeout(() => {
+          //   newF();
+          //   console.log("check");
+          // }, 4000);
+        }
+        // setTimeout(() => {
+        //   newF();
+        // }, 4000);
+
+        rev = setInterval(newF, 5000);
+        // console.log("interval clearend", revs);
+
+        // setRev(revs);
       } catch (error) {
         let obj = {
           show: true,
@@ -489,6 +586,11 @@ const Home = () => {
   //   return totalStakes;
   // };
 
+  useEffect(async () => {
+    let newVal = await getTVLValue();
+    setTotalStakeAmount(newVal);
+    console.log("log===", newVal);
+  }, []);
   return (
     <div>
       <Dialog
@@ -540,6 +642,7 @@ const Home = () => {
                 accountDetails={mainAccountDetails}
                 showTimer={showTimer}
                 totalStakesAmount={totalStakesAmount}
+                account={account}
               />
             </Grid>
           </Grid>

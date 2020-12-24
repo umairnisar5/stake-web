@@ -125,7 +125,7 @@ const Header = (props) => {
           ></img>
         </Grid>
         <Grid item>
-          <h2 style={{ color: "#fff" }}>Liquidity Staking</h2>
+          <h2 style={{ color: "#fff" }}>Dashboard</h2>
         </Grid>
 
         <Grid item>

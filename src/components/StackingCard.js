@@ -92,7 +92,11 @@ export default function SimpleCard(props) {
         <Grid container>
           <Grid item xs={12} style={{ margin: "0px 0px" }}>
             <Typography className={classes.pos} style={{ color: textColor }}>
-              {props?.mainAccountStake ? props?.mainAccountStake : 0}
+              {props?.mainAccountStake
+                ? props?.mainAccountStake?.toString() === "0.000"
+                  ? 0
+                  : props?.mainAccountStake
+                : 0}
               {/* user stake which was 0 */}
             </Typography>
           </Grid>

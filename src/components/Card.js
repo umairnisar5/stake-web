@@ -11,21 +11,39 @@ import moment from "moment";
 export default function SimpleCard(props) {
   const [remaningDays, setRemaningDays] = useState(null);
   const [rewardReady, setRewardReady] = useState(false);
+  const [accounts, setAccounts] = useState(null);
   const { accountDetails } = props;
   const classes = useStyles();
   useEffect(() => {
     if (parseInt(accountDetails?.deposit_time) === 0) {
     }
   }, [accountDetails]);
+
+  // useEffect(() => {
+  //   if (accountDetails?.deposit_time) {
+  //     let abc = setInterval(function () {
+  //       counter();
+  //       counter2();
+  //     }, 1000);
+  //     setAccounts(abc);
+  //   }
+
+  //   // eslint-disable-next-line
+  //   counter2();
+  // }, [props]);
   useEffect(() => {
+    clearInterval(accounts);
     if (accountDetails?.deposit_time) {
-      setInterval(function () {
+      let abc = setInterval(function () {
         counter();
+        counter2();
       }, 1000);
+      setAccounts(abc);
     }
     // eslint-disable-next-line
     counter2();
-  }, [props]);
+    counter();
+  }, [props?.account, props]);
 
   const counter = () => {
     accountDetails?.deposit_time &&
@@ -70,10 +88,9 @@ export default function SimpleCard(props) {
     accountDetails?.deposit_time &&
       setRewardReady(
         moment(
-          moment(new Date("2020-12-18T18:52:31.433Z").toISOString()).add(
-            7,
-            "days"
-          )
+          moment(
+            new Date(accountDetails?.deposit_time * 1000).toISOString()
+          ).add(7, "days")
         ).diff(moment(new Date().toISOString())) === 0
           ? true
           : false
@@ -99,7 +116,10 @@ export default function SimpleCard(props) {
             <Typography className={classes.title}>
               TVL:{" "}
               <span style={{ color: textColor }}>
-                ${props?.usdRate * props?.totalStakesAmount}
+                $
+                {props?.usdRate * props?.totalStakesAmount !== 0
+                  ? (props?.usdRate * props?.totalStakesAmount).toFixed(3)
+                  : 0}
               </span>
             </Typography>
           </Grid>
@@ -115,7 +135,7 @@ export default function SimpleCard(props) {
                   <span style={{ color: textColor }}></span>
                   {/* {counter()} days left */}
                   {rewardReady
-                    ? "Reward is ready to harvest"
+                    ? "You can unstake your amount!"
                     : parseInt(accountDetails?.deposit_time) !== 0 &&
                       remaningDays}
                 </>

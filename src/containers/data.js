@@ -31,13 +31,6 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
-    name: "drainEth",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "address", name: "_address", type: "address" }],
     name: "isStakeholder",
     outputs: [
@@ -45,6 +38,13 @@ export const abi = [
       { internalType: "uint256", name: "", type: "uint256" },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
+    name: "liquidityDistribution",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -92,6 +92,15 @@ export const abi = [
     name: "totalStakes",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address payable", name: "_owner", type: "address" },
+    ],
+    name: "transferOwnerShip",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
