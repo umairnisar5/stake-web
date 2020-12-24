@@ -54,6 +54,7 @@ const Header = (props) => {
 
     const accounts = await web3.eth.getAccounts();
     setAccount(account && accounts[0]);
+    // eslint-disable-next-line
     const networkId = await web3.eth.net.getId();
   };
   // eslint-disable-next-line

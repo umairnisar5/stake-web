@@ -585,11 +585,12 @@ const Home = () => {
   //   console.log("total stakes", totalStakes);
   //   return totalStakes;
   // };
-
+  // eslint-disable-next-line
   useEffect(async () => {
     let newVal = await getTVLValue();
     setTotalStakeAmount(newVal);
     console.log("log===", newVal);
+    // eslint-disable-next-line
   }, []);
   return (
     <div>
