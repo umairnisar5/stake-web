@@ -49,78 +49,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = (props) => {
   const classes = useStyles();
-  const [account, setAccount] = useState(null);
-  useEffect(() => {
-    // loadWeb3();
-    // loadBlockchainData();
-  }, []);
-  // eslint-disable-next-line
-  const loadBlockchainData = async () => {
-    const web3 = window.web3;
-
-    const accounts = await web3.eth.getAccounts();
-    setAccount(account && accounts[0]);
-    // eslint-disable-next-line
-    const networkId = await web3.eth.net.getId();
-  };
-  // eslint-disable-next-line
-  const loadWeb3 = async () => {};
-  // eslint-disable-next-line
-  const connectWithMetaMask = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-      const web3 = window.web3;
-
-      const accounts = await web3.eth.getAccounts();
-      console.log("account", accounts);
-      setAccount(accounts[0]);
-
-      const networkId = await web3.eth.net.getId();
-      console.log("networkId", networkId);
-      web3.eth.getBalance(accounts[0], (err, balance) => {});
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-      const web3 = window.web3;
-
-      const accounts = await web3.eth.getAccounts();
-      setAccount(accounts[0]);
-      web3.eth.getBalance(accounts[0], (err, balance) => {
-        console.log("balance:", balance);
-        console.log(err);
-      });
-      const networkId = await web3.eth.net.getId();
-      console.log("networkId", networkId);
-    } else {
-      window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
-  };
-  // stakeTokens = (amount) => {
-  //   this.setState({ loading: true });
-  //   this.state.daiToken.methods
-  //     .approve(this.state.tokenFarm._address, amount)
-  //     .send({ from: this.state.account })
-  //     .on("transactionHash", (hash) => {
-  //       this.state.tokenFarm.methods
-  //         .stakeTokens(amount)
-  //         .send({ from: this.state.account })
-  //         .on("transactionHash", (hash) => {
-  //           this.setState({ loading: false });
-  //         });
-  //     });
-  // };
-
-  // unstakeTokens = (amount) => {
-  //   this.setState({ loading: true });
-  //   this.state.tokenFarm.methods
-  //     .unstakeTokens()
-  //     .send({ from: this.state.account })
-  //     .on("transactionHash", (hash) => {
-  //       this.setState({ loading: false });
-  //     });
-  // };
   return (
     <div>
       <Grid container className={classes.headerBorderWeb}>
@@ -134,16 +62,17 @@ const Header = (props) => {
         <Grid item>
           <Grid
             container
+            spacing={2}
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Grid item xs={12} md={1}>
+            <Grid item xs={4} md={1}>
               <TelegramIcon style={{ color: "#ffff", fontSize: "28px" }} />
             </Grid>
 
-            <Grid item xs={12} md={1}>
+            <Grid item xs={4} md={1}>
               <ChatIcon style={{ color: "#ffff", fontSize: "28px" }} />
             </Grid>
-            <Grid item xs={12} md={1}>
+            <Grid item xs={4} md={1}>
               <TwitterIcon style={{ color: "#ffff", fontSize: "28px" }} />
             </Grid>
           </Grid>
@@ -151,7 +80,7 @@ const Header = (props) => {
 
         <Grid item>
           <Button
-            onClick={() => props?.loadWeb3()}
+            onClick={() => props?.redirectToHome()}
             variant="contained"
             className={classes.button}
           >

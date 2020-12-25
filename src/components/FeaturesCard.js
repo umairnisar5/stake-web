@@ -18,89 +18,7 @@ export default function SimpleCard(props) {
   const [accounts, setAccounts] = useState(null);
   const { accountDetails } = props;
   const classes = useStyles();
-  useEffect(() => {
-    if (parseInt(accountDetails?.deposit_time) === 0) {
-    }
-  }, [accountDetails]);
 
-  // useEffect(() => {
-  //   if (accountDetails?.deposit_time) {
-  //     let abc = setInterval(function () {
-  //       counter();
-  //       counter2();
-  //     }, 1000);
-  //     setAccounts(abc);
-  //   }
-
-  //   // eslint-disable-next-line
-  //   counter2();
-  // }, [props]);
-  useEffect(() => {
-    clearInterval(accounts);
-    if (accountDetails?.deposit_time) {
-      let abc = setInterval(function () {
-        counter();
-        counter2();
-      }, 1000);
-      setAccounts(abc);
-    }
-    // eslint-disable-next-line
-    counter2();
-    counter();
-    // eslint-disable-next-line
-  }, [props?.account, props]);
-
-  const counter = () => {
-    accountDetails?.deposit_time &&
-      setRemaningDays(`${moment
-        .duration(
-          moment(
-            moment(
-              new Date(accountDetails?.deposit_time * 1000).toISOString()
-            ).add(7, "days")
-          ).diff(moment(new Date().toISOString()))
-        )
-        .days()}
-        : ${moment
-          .duration(
-            moment(
-              moment(
-                new Date(accountDetails?.deposit_time * 1000).toISOString()
-              ).add(7, "days")
-            ).diff(moment(new Date().toISOString()))
-          )
-          .hours()}
-        : ${moment
-          .duration(
-            moment(
-              moment(
-                new Date(accountDetails?.deposit_time * 1000).toISOString()
-              ).add(7, "days")
-            ).diff(moment(new Date().toISOString()))
-          )
-          .minutes()}
-        : ${moment
-          .duration(
-            moment(
-              moment(
-                new Date(accountDetails?.deposit_time * 1000).toISOString()
-              ).add(7, "days")
-            ).diff(moment(new Date().toISOString()))
-          )
-          .seconds()}`);
-  };
-  const counter2 = () => {
-    accountDetails?.deposit_time &&
-      setRewardReady(
-        moment(
-          moment(
-            new Date(accountDetails?.deposit_time * 1000).toISOString()
-          ).add(7, "days")
-        ).diff(moment(new Date().toISOString())) === 0
-          ? true
-          : false
-      );
-  };
 
   return (
     <Card
@@ -115,6 +33,7 @@ export default function SimpleCard(props) {
           <Grid xs={11}>
             <Grid
               container
+              spacing={2}
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Grid item xs={12}>
@@ -153,11 +72,7 @@ export default function SimpleCard(props) {
                     backgroundPosition: "center",
                   }}
                 >
-                  {/* <img
-                src={sellingVotes}
-                alt="sellingVotes"
-                style={{ height: "300px", width: "300px" }}
-              /> */}
+                 
                 </Grid>
                 <Grid xs={12}>
                   <Typography className={classes.title}>
@@ -180,11 +95,7 @@ export default function SimpleCard(props) {
                     backgroundPosition: "center",
                   }}
                 >
-                  {/* <img
-                src={yieldsWhite}
-                alt="yieldsWhite"
-                style={{ height: "300px", width: "300px" }}
-              /> */}
+                 
                 </Grid>
                 <Grid xs={12}>
                   <Typography className={classes.title}>
@@ -197,7 +108,7 @@ export default function SimpleCard(props) {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                {" "}
+               
                 <Button variant="contained" className={classes.button}>
                   Lite Paper
                 </Button>

@@ -122,7 +122,8 @@ const Header = (props) => {
           <img
             alt="logo"
             src={Logo}
-            style={{ height: "100px", width: "200px" }}
+            style={{ height: "100px", width: "200px",cursor:"pointer" }}
+            onClick={()=>props?.redirectToIntro()}
           ></img>
         </Grid>
         <Grid item>

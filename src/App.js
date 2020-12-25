@@ -11,6 +11,10 @@ function App() {
   const redirectToHome = () => {
     setGoToHome(true);
   };
+  const redirectToIntro = () => {
+    setGoToHome(false);
+  };
+  
   return (
     <div
       className="App"
@@ -21,7 +25,7 @@ function App() {
       }}
     >
       {/* <Home /> */}
-      {goToHome ? <Home /> : <Intro redirectToHome={redirectToHome} />}
+      {goToHome ? <Home redirectToIntro={redirectToIntro}/> : <Intro redirectToHome={redirectToHome} />}
     </div>
   );
 }

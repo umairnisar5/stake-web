@@ -628,7 +628,7 @@ const Intro = ({ redirectToHome }) => {
       <Header redirectToHome={redirectToHome} />
       <Grid
         container
-        style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}
+        style={{ display: "flex", justifyContent: "center", marginTop: "40px",marginBottom:"40px" }}
       >
         <Grid item xs={12} xm={12} md={12} lg={12} xl={12}>
           <Grid container>
