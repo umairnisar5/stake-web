@@ -54,6 +54,7 @@ const Header = (props) => {
 
     const accounts = await web3.eth.getAccounts();
     setAccount(account && accounts[0]);
+    // eslint-disable-next-line
     const networkId = await web3.eth.net.getId();
   };
   // eslint-disable-next-line
@@ -121,7 +122,8 @@ const Header = (props) => {
           <img
             alt="logo"
             src={Logo}
-            style={{ height: "100px", width: "200px" }}
+            style={{ height: "100px", width: "200px",cursor:"pointer" }}
+            onClick={()=>props?.redirectToIntro()}
           ></img>
         </Grid>
         <Grid item>

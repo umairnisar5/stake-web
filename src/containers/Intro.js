@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 
-import Header from "../components/Header";
-import Card from "../components/Card";
+import Header from "../components/NewHeader";
+import Card from "../components/FeaturesCard";
 import StackingCard from "../components/StackingCard";
 import DepositeCard from "../components/DepositeCard";
 import { Grid } from "@material-ui/core";
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = (props) => {
+const Intro = ({ redirectToHome }) => {
   const [enteredAmount, setEnteredAmount] = useState(0);
   const [rewards, setRewards] = useState(0);
   const [mainAccountDetails, setMainAccountDetails] = useState(null);
@@ -625,9 +625,12 @@ const Home = (props) => {
         </Snackbar>
       </div>
 
-      <Header loadWeb3={loadWeb3} account={account} redirectToIntro={props?.redirectToIntro} />
-      <Grid container style={{ display: "flex", justifyContent: "center" }}>
-        <Grid item xs={12} xm={12} md={8} lg={6} xl={6}>
+      <Header redirectToHome={redirectToHome} />
+      <Grid
+        container
+        style={{ display: "flex", justifyContent: "center", marginTop: "40px",marginBottom:"40px" }}
+      >
+        <Grid item xs={12} xm={12} md={12} lg={12} xl={12}>
           <Grid container>
             <Grid
               item
@@ -635,7 +638,7 @@ const Home = (props) => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: "20px",
+                marginTop: "20px",
               }}
             >
               <Card
@@ -647,57 +650,10 @@ const Home = (props) => {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Grid
-              item
-              xs={12}
-              xm={12}
-              md={8}
-              lg={6}
-              xl={6}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "20px",
-              }}
-            >
-              <StackingCard
-                mainAccountStake={mainAccountStake}
-                accountDetails={mainAccountDetails}
-                stake={handleOpenStake}
-                unStake={unStakeZin}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              xm={12}
-              md={8}
-              lg={6}
-              xl={6}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "20px",
-              }}
-            >
-              <DepositeCard
-                withdraw={withdraw}
-                showTimer={showTimer}
-                rewards={rewards}
-              />
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default Home;
+export default Intro;

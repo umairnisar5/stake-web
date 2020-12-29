@@ -17,6 +17,7 @@ export default function SimpleCard(props) {
   useEffect(() => {
     if (parseInt(accountDetails?.deposit_time) === 0) {
     }
+    
   }, [accountDetails]);
 
   // useEffect(() => {
@@ -43,6 +44,7 @@ export default function SimpleCard(props) {
     // eslint-disable-next-line
     counter2();
     counter();
+     // eslint-disable-next-line
   }, [props?.account, props]);
 
   const counter = () => {

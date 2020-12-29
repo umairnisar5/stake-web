@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = (props) => {
+const Home = () => {
   const [enteredAmount, setEnteredAmount] = useState(0);
   const [rewards, setRewards] = useState(0);
   const [mainAccountDetails, setMainAccountDetails] = useState(null);
@@ -625,7 +625,7 @@ const Home = (props) => {
         </Snackbar>
       </div>
 
-      <Header loadWeb3={loadWeb3} account={account} redirectToIntro={props?.redirectToIntro} />
+      <Header loadWeb3={loadWeb3} account={account} />
       <Grid container style={{ display: "flex", justifyContent: "center" }}>
         <Grid item xs={12} xm={12} md={8} lg={6} xl={6}>
           <Grid container>
