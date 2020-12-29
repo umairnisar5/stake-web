@@ -107,7 +107,8 @@ const Home = (props) => {
   // "0x1806D174f365a31a3A9705d60bdd7D4522bD16EC"
   // eslint-disable-next-line
   const [contractAddress, setContractAddress] = useState(
-    "0x0DE97C875dd68d8A269cfb7Ec9D5c4c544751979"
+    // "0xafb8Dea6b90ac3b494406F2a1c8aa867283a66E2"
+    "0xafb8Dea6b90ac3b494406F2a1c8aa867283a66E2"
   );
   // eslint-disable-next-line
   const [tokenAddress, setTokenAddress] = useState(
