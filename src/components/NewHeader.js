@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatIcon from "@material-ui/icons/Chat";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import TwitterIcon from "@material-ui/icons/Twitter";
+import Msg from "../asset/msg.jpeg";
 
 import Web3 from "web3";
 import { primaryColor } from "../utils/constants";
@@ -66,14 +67,24 @@ const Header = (props) => {
             style={{ display: "flex", justifyContent: "space-between" }}
           >
             <Grid item xs={4} md={1}>
-              <TelegramIcon style={{ color: "#ffff", fontSize: "28px" }} />
+              <a href="https://www.telegram.com" target="_blank">
+                <TelegramIcon style={{ color: "#ffff", fontSize: "28px" }} />
+              </a>
             </Grid>
 
             <Grid item xs={4} md={1}>
-              <ChatIcon style={{ color: "#ffff", fontSize: "28px" }} />
+              <a href="https://www.facebook.com" target="_blank">
+                <ChatIcon style={{ color: "#ffff", fontSize: "28px" }} />
+                {/* <img
+                src={Msg}
+                style={{ color: "#ffff", height: "28px", width: "28px" }}
+              /> */}
+              </a>
             </Grid>
             <Grid item xs={4} md={1}>
-              <TwitterIcon style={{ color: "#ffff", fontSize: "28px" }} />
+              <a href="https://www.twitter.com" target="_blank">
+                <TwitterIcon style={{ color: "#ffff", fontSize: "28px" }} />
+              </a>
             </Grid>
           </Grid>
         </Grid>
