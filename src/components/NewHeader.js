@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ChatIcon from "@material-ui/icons/Chat";
 import TelegramIcon from "@material-ui/icons/Telegram";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import Msg from "../asset/msg.jpeg";
+import Msg from "../asset/discord.png";
 
 import Web3 from "web3";
 import { primaryColor } from "../utils/constants";
@@ -74,11 +74,8 @@ const Header = (props) => {
 
             <Grid item xs={4} md={1}>
               <a href="https://www.facebook.com" target="_blank">
-                <ChatIcon style={{ color: "#ffff", fontSize: "28px" }} />
-                {/* <img
-                src={Msg}
-                style={{ color: "#ffff", height: "28px", width: "28px" }}
-              /> */}
+                {/* <ChatIcon style={{ color: "#ffff", fontSize: "28px" }} /> */}
+                <img src={Msg} style={{ height: "28px", width: "28px" }} />
               </a>
             </Grid>
             <Grid item xs={4} md={1}>
