@@ -19,7 +19,6 @@ export default function SimpleCard(props) {
   const { accountDetails } = props;
   const classes = useStyles();
 
-
   return (
     <Card
       style={{
@@ -71,9 +70,7 @@ export default function SimpleCard(props) {
                     backgroundSize: "60% 60%",
                     backgroundPosition: "center",
                   }}
-                >
-                 
-                </Grid>
+                ></Grid>
                 <Grid xs={12}>
                   <Typography className={classes.title}>
                     Sell Your Votes
@@ -94,9 +91,7 @@ export default function SimpleCard(props) {
                     backgroundSize: "60% 60%",
                     backgroundPosition: "center",
                   }}
-                >
-                 
-                </Grid>
+                ></Grid>
                 <Grid xs={12}>
                   <Typography className={classes.title}>
                     Increase Stacking Yields
@@ -108,10 +103,17 @@ export default function SimpleCard(props) {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-               
-                <Button variant="contained" className={classes.button}>
-                  Lite Paper
-                </Button>
+                <a
+                  href="https://litepaper.com/"
+                  target="_blank"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <Button variant="contained" className={classes.button}>
+                    Lite Paper
+                  </Button>
+                </a>
               </Grid>
             </Grid>
           </Grid>
@@ -128,7 +130,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "18px",
@@ -136,7 +138,7 @@ const useStyles = makeStyles({
     color: "#FFFFFF",
   },
   subTitle: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",
@@ -144,7 +146,7 @@ const useStyles = makeStyles({
     color: "#FFFFFF",
   },
   pos: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontStyle: "normal",
     fontSize: "24px",
     lineHeight: "30px",
@@ -155,7 +157,7 @@ const useStyles = makeStyles({
     // background: primaryColor,
     borderRadius: "10px",
     fontStyle: "normal",
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontWeight: "bold",
     fontSize: "16px",
     borderRadius: "59px",

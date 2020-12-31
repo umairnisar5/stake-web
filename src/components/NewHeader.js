@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     // background: primaryColor,
     borderRadius: "10px",
     fontStyle: "normal",
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontWeight: "bold",
     fontSize: "16px",
     borderRadius: "59px",

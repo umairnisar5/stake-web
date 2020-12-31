@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     background: primaryColor,
     borderRadius: "10px",
     fontStyle: "normal",
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontWeight: "bold",
     fontSize: "16px",
     lineHeight: "20px",
@@ -122,8 +122,8 @@ const Header = (props) => {
           <img
             alt="logo"
             src={Logo}
-            style={{ height: "100px", width: "200px",cursor:"pointer" }}
-            onClick={()=>props?.redirectToIntro()}
+            style={{ height: "100px", width: "200px", cursor: "pointer" }}
+            onClick={() => props?.redirectToIntro()}
           ></img>
         </Grid>
         <Grid item>

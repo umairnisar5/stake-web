@@ -43,7 +43,10 @@ export default function AlertDialog(props) {
               className={classes.margin}
               variant="outlined"
             >
-              <InputLabel htmlFor="outlined-adornment-amount">
+              <InputLabel
+                htmlFor="outlined-adornment-amount"
+                style={{ fontFamily: " Arial, Helvetica, sans-serif" }}
+              >
                 Amount
               </InputLabel>
               <OutlinedInput
@@ -57,10 +60,21 @@ export default function AlertDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            onClick={handleClose}
+            color="primary"
+            style={{
+              fontFamily: " Arial, Helvetica, sans-serif",
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={handleConfirm} color="primary" autoFocus>
+          <Button
+            onClick={handleConfirm}
+            color="primary"
+            autoFocus
+            style={{ fontFamily: " Arial, Helvetica, sans-serif" }}
+          >
             Confirm
           </Button>
         </DialogActions>

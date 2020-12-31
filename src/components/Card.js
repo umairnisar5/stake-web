@@ -17,7 +17,6 @@ export default function SimpleCard(props) {
   useEffect(() => {
     if (parseInt(accountDetails?.deposit_time) === 0) {
     }
-    
   }, [accountDetails]);
 
   // useEffect(() => {
@@ -44,7 +43,7 @@ export default function SimpleCard(props) {
     // eslint-disable-next-line
     counter2();
     counter();
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [props?.account, props]);
 
   const counter = () => {
@@ -157,7 +156,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "18px",
@@ -165,7 +164,7 @@ const useStyles = makeStyles({
     color: "#FFFFFF",
   },
   pos: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: " Arial, Helvetica, sans-serif",
     fontStyle: "normal",
     fontSize: "24px",
     lineHeight: "30px",
