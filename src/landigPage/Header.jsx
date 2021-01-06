@@ -1,19 +1,28 @@
-import React from "react"
-
-export default function Header() {
+import React from 'react'
+import logo from "./zyflogonew.png"
+import "./LandingPage.css"
+function Header() {
     return (
-        <div>
-             <div>
-             <span>
-    <img src="" alt="" />
-             </span>
-             <span>
-  <h1>zYF Protocol</h1>
-             </span>
-             </div>
-             <div>
+        <div className="container">
+            <div className="logo-div">
+  <span className="logo-img">
+<img src={logo} alt="logo" width="60px" />
+  </span>
+  <span className="logo-txt">
+zYF Protocol
+  </span>
+            </div>
+            <div>
+                 <span>
+                   Blog
+                 </span>
+                 <span>
+                   Launch App
+                 </span>
+            </div>
 
-             </div>
         </div>
     )
 }
+
+export default Header;

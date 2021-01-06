@@ -1,0 +1,29 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.logo-div{
+    display: flex;
+    align-items: center;
+   
+    
+    width: 100%;
+}
+.logo-img{
+    margin: 10px 30px;
+}
+.logo-txt{
+   
+    font-size: 25px;
+    font-weight: 700;
+    margin-left: -18px;
+    color: white;
+}
+.blog-div{
+   text-align: end;
+
+}
+.container{
+    background: rgb(82, 139, 161);
+    display: flex;
+}
