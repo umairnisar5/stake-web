@@ -12,16 +12,22 @@ function Header() {
 zYF Protocol
   </span>
             </div>
-            <div>
+            <div className="text_blog">
                  <span>
                    Blog
                  </span>
                  <span>
-                   Launch App
+                   Launch App 
                  </span>
             </div>
 
+            <div>
+                <h1>Decentralized</h1>
+            </div>
+
         </div>
+       
+
     )
 }
 
