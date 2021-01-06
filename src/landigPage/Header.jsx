@@ -22,7 +22,7 @@ zYF Protocol
             </div>
 
             <div>
-                <h1>Decentralized</h1>
+            
             </div>
 
         </div>
