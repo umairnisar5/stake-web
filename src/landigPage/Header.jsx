@@ -5,6 +5,7 @@ import pic from "./Untitled.png";
 import NearMeIcon from '@material-ui/icons/NearMe';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import "./LandingPage.css"
 
 function Header() {
@@ -77,10 +78,12 @@ zYF Protocol
 
         <button className="read_blog">Read our blog</button>
         </div>
-        <footer>
+        <footer className="foot_div">
            <p> zYF Protocol © 2021</p>
            <p>App Lite paper Blog</p>
            <TwitterIcon />
+           <ModeCommentIcon />
+
            <NearMeIcon />
         </footer>
 
