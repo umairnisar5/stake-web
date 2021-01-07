@@ -20,12 +20,12 @@ function Header() {
 zYF Protocol
   </span>
             </div>
-            <div>
-                 <span className="text_blog">
+            <div className="text_blog">
+                 <span className="blog_text">
                    Blog
                  </span>
-                 <span>
-                   Launch App 
+                 <span className="launch_app">
+                   LaunchApp 
                  </span>
                  <div className="arrow_icon">
                  <ArrowRightAltIcon />
@@ -45,7 +45,7 @@ zYF Protocol
             </p>
         </div>
         <div className="button">
-        <button className="launch_app">Launch App</button>
+        <button className="launch_text">Launch App</button>
         <button className="lite_paper">Litepaper</button>
 
         </div>
@@ -56,6 +56,7 @@ zYF Protocol
         </div>
 
         <div>
+        <ModeCommentIcon />
        <NearMeIcon />
        </div>
 

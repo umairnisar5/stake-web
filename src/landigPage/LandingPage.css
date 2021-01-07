@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    
 }
 .logo-div{
     display: flex;
@@ -28,6 +29,32 @@
     display: flex;
     
 }
+.text_blog {
+    display: inline-flex;
+}
+.blog_text{
+    
+    padding-top: 20px;
+    padding-right: 30px;
+    color: white;
+}
+.launch_app{
+    
+    padding-top: 20px;
+    padding-right: 20px;
+    color: white;
+
+}
+.arrow_icon{
+    margin-top: 22px;
+    margin-right: 25px;
+    color: white;
+
+}
+
+
+
+
 
 
 
