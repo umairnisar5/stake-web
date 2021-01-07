@@ -10,6 +10,9 @@
     
     width: 100%;
 }
+.image{
+    width: 250px;
+}
 .logo-img{
     margin: 10px 30px;
 }
@@ -56,16 +59,27 @@
 }
 .decentr_lized{
    
-    padding: 40px 0px;
+    padding: 50px 0px;
     padding-left: 15px;
     font-size: large;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
+.banertxt-div{
+    margin-top: -115px;
+}
 .banertxt-div h1{
     font-size: 20px;
 }
+.para_div{
+    font-size: 10px;
+    margin-top: 10px;
+}
+@media screen and (min-width:700px){
+    .image{
+        width: 400px;
+    }}
 @media screen and (min-width:700px){
     .banertxt-div h1{
         font-size: 30px;
@@ -76,14 +90,17 @@
 }
 @media screen and (min-width:1120px){
     .banertxt-div h1{
-        font-size: 70px;
+        font-size: 50px;
+        margin-top: 110px;
     }
     .para_div{
         font-size: 40px;
     }
 }
 
-
+.button{
+    
+}
 
 
 

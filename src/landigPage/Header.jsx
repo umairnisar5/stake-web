@@ -30,6 +30,7 @@ zYF Protocol
                  <ArrowRightAltIcon className="arrow_icon"/>
             </div>
         </div>
+        <div>
         <div className="decentr_lized">
         <div className="banertxt-div">
         <h1>Decentralized<br/> Seigniorage Insurance<br/> Protocol</h1>
@@ -39,14 +40,14 @@ zYF Protocol
                 (with a specific time period or ever). Get paid providing liquidity to the zYF insurance fund.
             </p>
             </div>
-            <div className="image">
-        <img src={image} alt="pic" width="350px" />
-        </div>
+           
+        <img className="image" src={image} alt="pic" />
+        
         </div>
         <div className="button">
         <button className="launch_text">Launch App</button>
         <button className="lite_paper">Litepaper</button>
-
+        </div>
         </div>
         <div className="join">
         <p>
