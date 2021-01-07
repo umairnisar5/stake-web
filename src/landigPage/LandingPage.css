@@ -98,9 +98,32 @@
     }
 }
 
-.button{
-    
+.button_launch {
+    margin-left: 22px;
+    display: flex;
+    font-size: 30px;
+    height: 35px;
 }
+
+.launch_text {
+    width: 25%;
+}
+
+.lite_paper {
+    background-color :white;
+    border-radius: 2px solid black;
+margin-left :20px;
+padding :8px;
+text-color:whitesmoke;
+
+
+} 
+
+
+
+
+
+
 
 
 

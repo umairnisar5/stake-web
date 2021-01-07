@@ -44,15 +44,18 @@ zYF Protocol
         <img className="image" src={image} alt="pic" />
         
         </div>
-        <div className="button">
+        <div className="button_launch">
         <button className="launch_text">Launch App</button>
         <button className="lite_paper">Litepaper</button>
-        </div>
+        
         </div>
         <div className="join">
         <p>
         join our community!
         </p>
+       
+        
+        </div>
         </div>
 
         <div>
