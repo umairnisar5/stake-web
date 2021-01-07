@@ -31,28 +31,57 @@
 }
 .text_blog {
     display: inline-flex;
+    align-items: center;
+
 }
 .blog_text{
     
-    padding-top: 20px;
-    padding-right: 30px;
+    
+    margin-right: 20px;
     color: white;
 }
 .launch_app{
     
-    padding-top: 20px;
-    padding-right: 20px;
+   
+    margin-right: 10px;
     color: white;
 
 }
 .arrow_icon{
-    margin-top: 22px;
-    margin-right: 25px;
+    
+    padding-right: 28px;
+    font-size: 29px;
     color: white;
 
 }
-
-
+.decentr_lized{
+   
+    padding: 40px 0px;
+    padding-left: 15px;
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.banertxt-div h1{
+    font-size: 20px;
+}
+@media screen and (min-width:700px){
+    .banertxt-div h1{
+        font-size: 30px;
+    }
+    .para_div{
+        font-size: 20px;
+    }
+}
+@media screen and (min-width:1120px){
+    .banertxt-div h1{
+        font-size: 70px;
+    }
+    .para_div{
+        font-size: 40px;
+    }
+}
 
 
 

@@ -27,22 +27,21 @@ zYF Protocol
                  <span className="launch_app">
                    LaunchApp 
                  </span>
-                 <div className="arrow_icon">
-                 <ArrowRightAltIcon />
-                 </div>
+                 <ArrowRightAltIcon className="arrow_icon"/>
             </div>
         </div>
         <div className="decentr_lized">
+        <div className="banertxt-div">
         <h1>Decentralized<br/> Seigniorage Insurance<br/> Protocol</h1>
-        <img src={image} alt="pic" width="100px" />
-
-        </div>
-        <div className="para_div">
-            <p>
-                Protect your Seigniorage assets the risk of not returning to peg<br/>
+        
+            <p className="para_div">
+                Protect your Seigniorage assets the risk of not returning to peg
                 (with a specific time period or ever). Get paid providing liquidity to the zYF insurance fund.
-
             </p>
+            </div>
+            <div className="image">
+        <img src={image} alt="pic" width="350px" />
+        </div>
         </div>
         <div className="button">
         <button className="launch_text">Launch App</button>
