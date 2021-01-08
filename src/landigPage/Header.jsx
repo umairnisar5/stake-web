@@ -80,7 +80,7 @@ function Header() {
                 <button className="read_blog">Read our blog</button>
             </div>
             <div className="detailpage_img">
-              <img src={pic} width="250" />
+              <img src={pic} width="250px" />
             </div>
           </div>
         </div>
