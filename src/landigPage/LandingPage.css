@@ -119,6 +119,7 @@
     color: #fff;
     cursor: pointer;
     transition: .5s;
+    transform: scale(1.1);
   }
 
   .lite_paper{
@@ -134,6 +135,7 @@
     color: #498bf5;
     cursor: pointer;
     transition: .5s;
+    transform: scale(1.1);
   }
 
   .aboutpage_logo {
@@ -284,6 +286,7 @@
     color: #498bf5;
     cursor: pointer;
     transition: .5s;
+    transform: scale(1.1);
   }
 
   .detailpage_img {
