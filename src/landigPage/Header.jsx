@@ -142,7 +142,7 @@ function Header() {
            </div>
 
            <div className="aboutpage_img">
-             <img src={image} width="250" />
+             <img src={image} width="200px" />
            </div>
            
         </div>
