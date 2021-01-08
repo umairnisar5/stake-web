@@ -211,6 +211,8 @@ h6 {
     box-sizing: border-box;
   }
 
+  /* navbar style */
+
   .navbar{
     background-color: #498bf5;
     display: flex;
@@ -282,4 +284,73 @@ h6 {
       margin: 3px 10px 0 0;
       font-size: 11px;
     }
+  }
+
+  /* aboutpage_div style */
+
+  .aboutpage_div {
+    display: flex;
+    width: 100%;
+    background-color: #498bf5;
+  }
+
+  .aboutpage_detail {
+    color: #fff;
+  }
+
+  .aboutpage_detail h1 {
+    margin: 20px 0 0 50px;
+  }
+
+  .aboutpage_detail p {
+    margin: 15px 0 0 40px;
+  }
+
+  .aboutpage_buttons button {
+    width: 110px;
+    padding: 10px;
+    margin: 20px 0 0 40px;
+    border-radius: 5px;
+  }
+
+  .launch_text {
+    background-color: #fff;
+    color: #498bf5;
+    outline: none;
+    outline-style: none;
+    border: 3px solid #498bf5;
+  }
+
+  .launch_text:hover {
+    background-color: #498bf5;
+    color: #fff;
+    cursor: pointer;
+    transition: .5s;
+  }
+
+  .lite_paper{
+    background-color: #498bf5;
+    color: #fff;
+    outline: none;
+    outline-style: none;
+    border: 3px solid #fff;
+  }
+
+  .lite_paper:hover {
+    background-color: #fff;
+    color: #498bf5;
+    cursor: pointer;
+    transition: .5s;
+  }
+
+  .aboutpage_logo {
+    margin: 15px 0 0 40px;
+  }
+
+  .logo1 {
+    margin: 0px 10px 20px 10px;
+  }
+
+  .aboutpage_img {
+    margin: 25px 0 0 0;
   }

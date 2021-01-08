@@ -122,10 +122,8 @@ function Header() {
           <p>
              Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do
              eiusmod tempor
-             <br />
              incididunt ut labore et dolore manage alique. Ut enim ad minim
              veniam,quis nostrud
-             <br />
              exercitation ullamco laboris nisi ut aliquip ex ea commodo
              consequat.
            </p>
@@ -137,8 +135,8 @@ function Header() {
 
            <p>join our community!</p>
            <div className="aboutpage_logo">
-               <ModeCommentIcon />
-               <NearMeIcon />
+               <ModeCommentIcon className="logo1" />
+               <NearMeIcon className="logo1" />
              </div>
 
            </div>
