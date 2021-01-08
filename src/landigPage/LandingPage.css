@@ -289,3 +289,31 @@
   .detailpage_img {
     margin: 15px 70px 0 0;
   }
+
+  @media screen and (max-width:500px){
+    .protocol h2 {
+      margin: 50px 0 0 40px;
+      font-size: 18px;
+    }
+    .protocol h3 {
+      margin: 25px 0 0 40px;
+      font-size: 16px;
+    }
+    .protocol p {
+      margin: 10px 70px 0 40px;
+      font-size: 14px;
+    }
+    .insurance_p h3 {
+      margin: 10px 0 0 40px;
+      font-size: 16px;
+    }
+  
+    .insurance_p p {
+      margin: 10px 0px 0 40px;
+      font-size: 14px;
+    }
+    .detailpage_img img {
+      margin: 15px 0 0 0;
+      width: 200px;
+    }
+  }
