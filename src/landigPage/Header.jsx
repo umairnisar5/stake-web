@@ -89,9 +89,9 @@ function Header() {
           <p>zYF Protocol © 2021</p>
           <p>App Lite paper Blog</p>
           <p>
-           <TwitterIcon />
-           <ModeCommentIcon />
-           <NearMeIcon />
+           <TwitterIcon className="logo2" />
+           <ModeCommentIcon className="logo2" />
+           <NearMeIcon className="logo2" />
           </p>
         </div>
 
