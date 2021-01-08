@@ -144,7 +144,7 @@ function Header() {
            </div>
 
            <div className="aboutpage_img">
-             <img src={image} />
+             <img src={image} width="250" />
            </div>
            
         </div>
@@ -177,7 +177,7 @@ function Header() {
                 <button className="read_blog">Read our blog</button>
             </div>
             <div className="detailpage_img">
-              <img src={pic} />
+              <img src={pic} width="250" />
             </div>
           </div>
         </div>
