@@ -61,6 +61,7 @@ function Header() {
         <div className="protocol">
           <h2 className="what">What is zYF Protocol?</h2>
           <h3>Insurance on coupons</h3>
+          
           <p>
             Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do
             eiusmod tempor
@@ -72,8 +73,12 @@ function Header() {
             consequat.
           </p>
         </div>
+        <div className="second_img">
+          <img src={pic} alt="img" width="350px" />
+        </div>
         <div className="pegging">
           <h2 className="insurr">Insurance on un-pegging</h2>
+         
           <p>
             Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do
             eiusmod tempor
@@ -82,9 +87,7 @@ function Header() {
             veniam,quis nostrud exercitation
           </p>
         </div>
-        <div className="second_img">
-          <img src={pic} alt="img" width="450px" />
-        </div>
+        
 
         <button className="read_blog">Read our blog</button>
       </div>

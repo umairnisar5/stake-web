@@ -145,6 +145,7 @@ height: 100%;
 .main_div {
   background-color: white;
   height: 100%;
+  
 }
 .pegging {
   margin-left: 20px;
@@ -178,7 +179,7 @@ h3{
 }
 .footer_div{
   display: flex;
-  padding: 38px;
+  padding: 15px;
   margin-top: 30px;
   background-color: skyblue;
 justify-content: space-between;
@@ -199,7 +200,7 @@ h6 {
   font-size: 15;
   margin-top: 100px;
 }
-@media screen and (min-width:700px){
+@media screen and (min-width:600px){
   .second_img{
       width: 400px;
   }}
