@@ -15,38 +15,37 @@ function Header() {
         <div className="logo-div">
           <span className="logo-img">
             <img src={logo} alt="logo" width="60px" />
-          </span>{" "}
-          <span className="logo-txt">zYF Protocol </span>{" "}
-        </div>{" "}
+          </span>
+          <span className="logo-txt">zYF Protocol </span>
+        </div>
         <div className="text_blog">
-          <span className="blog_text">Blog </span>{" "}
-          <span className="launch_app">LaunchApp </span>{" "}
+          <span className="blog_text">Blog </span>
+          <span className="launch_app">LaunchApp </span>
           <ArrowRightAltIcon className="arrow_icon" />
-        </div>{" "}
-      </div>{" "}
+        </div>
+      </div>
       <div>
         <div className="decentr_lized">
           <div className="banertxt-div">
             <h1>
-              {" "}
-              Decentralized <br /> Seigniorage Insurance <br /> Protocol{" "}
+              Decentralized <br /> Seigniorage Insurance <br /> Protocol
             </h1>
             <p className="para_div">
               Protect your Seigniorage assets the risk of not returning to
               peg(with a specific time period or ever).Get paid providing
-              liquidity to the zYF insurance fund.{" "}
-            </p>{" "}
+              liquidity to the zYF insurance fund.
+            </p>
           </div>
 
           <img className="image" src={image} alt="pic" />
-        </div>{" "}
+        </div>
         <div className="button_launch">
-          <button className="launch_text"> Launch zzApp </button>{" "}
+          <button className="launch_text"> Launch zzApp </button>
           <button className="lite_paper"> Litepaper </button>
-        </div>{" "}
+        </div>
         <div className="join">
           <p>join our community!</p>
-        </div>{" "}
+        </div>
       </div>
       <div>
         <ModeCommentIcon />
@@ -54,30 +53,28 @@ function Header() {
       </div>
       <div main_div>
         <div className="protocol">
-          <h2> What is zYF Protocol ? </h2> <h3> Insurance on coupons </h3>{" "}
+          <h2> What is zYF Protocol ? </h2> <h3> Insurance on coupons </h3>
           <p>
-            {" "}
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor <br />
             incididunt ut labore et dolore manage alique.Ut enim ad minim
             veniam, quis nostrud <br />
             exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.{" "}
-          </p>{" "}
-        </div>{" "}
+            consequat.
+          </p>
+        </div>
         <div className="pegging">
-          <h2> Insurance on un - pegging </h2>{" "}
+          <h2> Insurance on un - pegging </h2>
           <p>
-            {" "}
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor <br />
             incididunt ut labore et dolore manage alique.Ut enim ad minim
-            veniam, quis nostrud exercitation{" "}
-          </p>{" "}
-        </div>{" "}
+            veniam, quis nostrud exercitation
+          </p>
+        </div>
         <img src={pic} alt="img" width="100px" />
-        <button className="read_blog"> Read our blog </button>{" "}
-      </div>{" "}
+        <button className="read_blog"> Read our blog </button>
+      </div>
       <footer className="foot_div">
         <p> zYF Protocol© 2021 </p> <p> App Lite paper Blog </p> <TwitterIcon />
         <ModeCommentIcon />
