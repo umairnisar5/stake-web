@@ -8,6 +8,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import { NavLink } from "react-router-dom";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 import "./LandingPage.css";
 
 function Header() {
