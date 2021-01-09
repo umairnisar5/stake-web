@@ -4,7 +4,9 @@ import Intro from "./containers/Intro";
 import "./App.css";
 import Background from "./asset/Background.svg";
 
+
 function App() {
+  
   const [goToHome, setGoToHome] = useState(false);
 
   console.log(goToHome, "goToHome===============");
@@ -16,17 +18,25 @@ function App() {
   };
   
   return (
+   
     <div
+    
       className="App"
       style={{
         background: `url(${Background})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
-    >
+    > 
+    
+    
       {/* <Home /> */}
-      {goToHome ? <Home redirectToIntro={redirectToIntro}/> : <Intro redirectToHome={redirectToHome} />}
+      
+
+      {goToHome ? <Home redirectToIntro={redirectToIntro}/> : <Intro redirectToHome={redirectToHome} />
+      }
     </div>
+    
   );
 }
 

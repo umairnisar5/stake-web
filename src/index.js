@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Header from "../src/landigPage/Header"
+import Header from "../src/landigPage/Header";
 ReactDOM.render(
-  <React.StrictMode>
-    <Header />
-  </React.StrictMode>,
+    <Header />,
   document.getElementById('root')
 );
 
