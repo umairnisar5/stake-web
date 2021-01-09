@@ -150,6 +150,11 @@
     margin: 25px 0 0 0;
   }
 
+  .aboutpage_img img:hover {
+    transition: .5s;
+    transform: scale(1.1);
+  }
+
   @media screen and (max-width:650px){
     .aboutpage_detail h1 {
       margin: 20px 0 0 50px;
@@ -291,6 +296,11 @@
 
   .detailpage_img {
     margin: 15px 70px 0 0;
+  }
+
+  .detailpage_img img:hover {
+    transition: .5s;
+    transform: scale(1.1);
   }
 
   @media screen and (max-width:600px){
