@@ -353,3 +353,9 @@
       font-size: 14px;
     }
   }
+
+  @media screen and (max-width:400px){
+    .footer_div p {
+      font-size: 12px;
+    }
+  }
