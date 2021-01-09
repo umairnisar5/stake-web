@@ -6,7 +6,6 @@ import NearMeIcon from "@material-ui/icons/NearMe";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
-import { NavLink } from "react-router-dom";
 import "./LandingPage.css";
 
 function Header() {
@@ -39,11 +38,8 @@ function Header() {
            </p>
 
            <div className="aboutpage_buttons">
-
-           <NavLink exact to="/App">
-
+           
            <button className="launch_text">Launch App</button>
-           </NavLink>
 
            <button className="lite_paper">Litepaper</button>
            </div>
