@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from "react-router-dom";
 import Header from "../src/landigPage/Header";
 ReactDOM.render(
-    <Header />,
+  <BrowserRouter>
+    <Header />
+    </BrowserRouter>,
   document.getElementById('root')
 );
 

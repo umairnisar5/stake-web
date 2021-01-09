@@ -7,14 +7,12 @@ import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import { NavLink } from "react-router-dom";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
 import "./LandingPage.css";
 
 function Header() {
   return (
     <>
-    <App /> 
+   
       <div className="main_div">
         <div className="navbar">
           <div className="img_heading">
@@ -42,7 +40,7 @@ function Header() {
 
            <div className="aboutpage_buttons">
 
-           <NavLink  to="/App">
+           <NavLink exact to="/App">
 
            <button className="launch_text">Launch App</button>
            </NavLink>
