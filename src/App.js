@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Home from "./containers/Home";
 import Intro from "./containers/Intro";
+import Header from './landigPage/Header'
 import "./App.css";
 import Background from "./asset/Background.svg";
 
@@ -28,7 +29,9 @@ function App() {
         backgroundSize: "cover",
       }}
     > 
-    
+  
+     
+   {/* <Header />  */}
     
       {/* <Home /> */}
       
